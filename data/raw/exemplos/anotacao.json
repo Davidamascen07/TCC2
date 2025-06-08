@@ -1,0 +1,2363 @@
+{
+  "anotacoes": [
+    {
+      "arquivo_origem": "comprovante_inter_58_00.jpg",
+      "valor": "R$ 58,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos - Ip"
+      },
+      "remetente": {
+        "nome": "AIALA DE BRITO MARTINS",
+        "cpf": "***975.343-**",
+        "instituicao": "Banco Inter S.A."
+      },
+      "data": "03/06/2025",
+      "horario": "19h51",
+      "id_transacao": "E00416968202506032251NJ14663h0eR",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_pix_35_00.jpg",
+      "valor": "R$ 35,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP"
+      },
+      "remetente": {
+        "nome": "Marcio Galeno De Araujo",
+        "cpf": "***318.023-**",
+        "instituicao": "PICPAY"
+      },
+      "data": "03/06/2025",
+      "horario": "21:07:27",
+      "id_transacao": "E2289643120250604000568bjeec55c40",
+      "tipo": "Comprovante de Pix"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_19_50.jpg",
+      "valor": "R$ 19,50",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Rodrigo Miranda Mendonça",
+        "cpf": "***078.642-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "33434813-7"
+      },
+      "data": "03/06/2025",
+      "horario": "22:25:30",
+      "id_transacao": "E18236120202506040125e173f4b96d4",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_40_00.jpg",
+      "valor": "R$ 40,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Guilherme Willian Barbosa de Olivindo",
+        "cpf": "***599.713-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "44724164-1"
+      },
+      "data": "04/06/2025",
+      "horario": "19:54:31",
+      "id_transacao": "E18236120202506042254s021ad89658",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_btg_38_00.jpg",
+      "valor": "R$ 38,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa Dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos S.A. - Instituição de Pagamento"
+      },
+      "remetente": {
+        "nome": "Lucas Rodrigues Da Silva",
+        "cpf": "***615.583-**",
+        "instituicao": "Banco BTG Pactual S.A."
+      },
+      "data": "04/06/2025",
+      "horario": "20:17:55",
+      "id_transacao": "E30306294202506042317000002f8zM",
+      "codigo_autenticacao": "fede1ea944d848eab4f70a4d3759b1ea",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_31_00.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "José Lucas Silva dos Santos",
+        "cpf": "***656.713-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "8340513-9"
+      },
+      "data": "03/06/2025",
+      "horario": "22:20:21",
+      "id_transacao": "E18236120202506040120s0144bbdf88",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_28_00.jpg",
+      "valor": "R$ 28,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Hilda Lima Ferreira",
+        "cpf": "***536.573-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "81669948-8"
+      },
+      "data": "20/05/2025",
+      "horario": "22:21:00",
+      "id_transacao": "E18236120202505210120s06a816f2c8",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_69_00.jpg",
+      "valor": "R$ 69,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Dayane Silva de Carvalho",
+        "cpf": "***221.523-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "69320609-5"
+      },
+      "data": "21/05/2025",
+      "horario": "18:46:28",
+      "id_transacao": "E18236120202505212146s08bc3ab903",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_32_00.jpg",
+      "valor": "R$ 32,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Keila Fernandes da Silva",
+        "cpf": "***292.033-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "57328353-1"
+      },
+      "data": "21/05/2025",
+      "horario": "19:30:27",
+      "id_transacao": "E18236120202505212230s06acdde95c",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_20_00.jpg",
+      "valor": "R$ 20,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisco Emanuel Pereira do Nascimento",
+        "cpf": "***419.483-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45331459-4"
+      },
+      "data": "21/05/2025",
+      "horario": "21:13:09",
+      "id_transacao": "E18236120202505220012s19dd7a2f65",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_44_00.jpg",
+      "valor": "R$ 44,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Afonso Francisco Passos Junior",
+        "cpf": "***402.793-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "36848984-9"
+      },
+      "data": "21/05/2025",
+      "horario": "22:21:52",
+      "id_transacao": "E18236120202505220121s012313f0ba",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_will_17_00.jpg",
+      "valor": "R$ 17,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa Dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "(88) 99451-5533"
+      },
+      "remetente": {
+        "nome": "Sheila Fernandes Da Silva",
+        "cpf": "***687.783-**",
+        "instituicao": "Will Bank"
+      },
+      "data": "22/05/2025",
+      "horario": "17:52:04",
+      "id_transacao": "E2386276220250522051ZMVPEG9E1K",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_will_33_00.jpg",
+      "valor": "R$ 33,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa Dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "(88) 99451-5533"
+      },
+      "remetente": {
+        "nome": "Antonio Valmi Passos Da Rocha",
+        "cpf": "***097.048-**",
+        "instituicao": "Will Bank"
+      },
+      "data": "20/05/2025",
+      "horario": "17:51:22",
+      "id_transacao": "E238627622025052020248NE6T9GQ7GEM",
+      "descricao": "pagar piza",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_nubank_898_80.jpg",
+      "valor": "R$ 898,80",
+      "destinatario": {
+        "nome": "AIAMISS",
+        "cnpj": "03365403000122",
+        "instituicao": "CONPAY IP S.A.",
+        "tipo_conta": "Conta de pagamentos"
+      },
+      "remetente": {
+        "nome": "Dionete Damasceno da Frota",
+        "cpf": "***374.593-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "71596013-8"
+      },
+      "data": "30/05/2025",
+      "horario": "17:29:35",
+      "id_transacao": "E18236120202505302029s15f61c414a",
+      "identificador": "71db90abfe214ed69ed4429c89da1374",
+      "expiracao": "30/05/2025 18:27:52",
+      "valor_original": "R$ 898,80",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_030.jpg",
+      "valor": "R$ 20,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Cleilson Alves dos Santos",
+        "cpf": "***158.003-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "88454388-4"
+      },
+      "data": "20/05/2025",
+      "horario": "20:23:40",
+      "id_transacao": "E18236120202502323s154055bd8b",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_029.jpg",
+      "valor": "R$ 39,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "GABRIELA CARVALHO ARAUJO",
+        "cpf": "***902.593-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "7410",
+        "conta": "0042280-7"
+      },
+      "data": "03/06/2025",
+      "horario": "19:29:11",
+      "id_transacao": "E60701190202506032228DY5D37MTXUM",
+      "codigo_autenticacao": "7363B0CFCA53FF01171934657BE6F92BA02FCAA",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_028.jpg",
+      "valor": "R$ 81,86",
+      "destinatario": {
+        "nome": "TOPNET SERVICOS DE TELECOMUNICACAO LTDA",
+        "cnpj": "28.385.484/0001-53",
+        "instituicao": "CCR DE SAO MIGUEL DO OESTE"
+      },
+      "remetente": {
+        "nome": "DAVID DAMASCENO DA FROTA",
+        "cpf": "***072.773-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "16/03/2025",
+      "horario": "20:01:51",
+      "id_transacao": "E00360305202503162301e7f6b0cf921d",
+      "codigo_operacao": "4390120937",
+      "chave_seguranca": "NNC5ZAP568507QV2",
+      "tipo": "Consultar Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_027.jpg",
+      "valor": "R$ 32,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "João Francisco Araújo de Oliveira Filho",
+        "cpf": "***113.103-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "55048687-7"
+      },
+      "data": "03/06/2025",
+      "horario": "19:26:48",
+      "id_transacao": "E18236120202506032226s05ecb0b500",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_026.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Graciele da Silva Sousa",
+        "cpf": "***221.043-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "42470844-3"
+      },
+      "data": "03/06/2025",
+      "horario": "18:21:37",
+      "id_transacao": "E18236120202506032121s047c02fc07",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_025.jpg",
+      "valor": "R$ 27,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS S.A. - INSTITUIÇÃO DE PAGAMENTO",
+        "chave_pix": "(88) 99451-5533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Araújo Nunes",
+        "cpf": "***671.423-**",
+        "instituicao": "PagBank (PagSeguro Internet Instituição de Pagamento S.A.)"
+      },
+      "data": "03/06/2025",
+      "horario": "18:00:24",
+      "id_transacao": "E08561701202506032100JLA8ZLQVKAP",
+      "codigo_pagbank": "3713888b-1283-46bb-a702-fa74e347acbc",
+      "tipo": "Comprovante de envio de Pix"
+    },
+    {
+      "arquivo_origem": "comprovante_024.jpg",
+      "valor": "R$ 35,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisca Ediane de Souza",
+        "cpf": "***918.623-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "227064-9"
+      },
+      "data": "01/06/2025",
+      "horario": "21:16:11",
+      "id_transacao": "E18236120202506020016s06fa029e05",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_023.jpg",
+      "valor": "R$ 38,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos - Ip"
+      },
+      "remetente": {
+        "nome": "JAIR SOUSA DE CARVALHO",
+        "cpf": "***590.613-**",
+        "instituicao": "Banco Inter S.A."
+      },
+      "data": "01/06/2025",
+      "horario": "20:47",
+      "id_transacao": "E00416968202506012347IPIqkthD9Lc",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_022.jpg",
+      "valor": "R$ 79,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Eliane Rodrigues de Carvalho",
+        "cpf": "***669.073-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "16514282-5"
+      },
+      "data": "01/06/2025",
+      "horario": "20:47:40",
+      "id_transacao": "E18236120202506012347s1928160e46",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_021.jpg",
+      "valor": "R$ 34,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Luziane Marques Araújo",
+        "cpf": "***816.353-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "57067320-6"
+      },
+      "data": "01/06/2025",
+      "horario": "19:07:37",
+      "id_transacao": "E18236120202506012207s1968177e4",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_020.jpg",
+      "valor": "R$ 26,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Helena Damasceno de Sousa",
+        "cpf": "***386.823-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "30846774-3"
+      },
+      "data": "01/06/2025",
+      "horario": "19:03:02",
+      "id_transacao": "E18236120202506012202s03555184c8",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_019.jpg",
+      "valor": "R$ 24,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750564",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Araujo Nunes",
+        "cpf": "***671.423-**",
+        "instituicao": "00000000 BCO DO BRASIL S.A.",
+        "agencia": "2773-1",
+        "conta": "24914-9"
+      },
+      "data": "01/06/2025",
+      "horario": "18:51:53",
+      "id_transacao": "E00000000202506012151438153762068",
+      "documento": "000000000060203",
+      "autenticacao": "B.34A.C44.30F.745.6B5",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_018.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "YASMIM RENARA SOUSA DE ASSIS",
+        "cpf": "***624.013-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "7696",
+        "conta": "0042788-4"
+      },
+      "data": "20/05/2025",
+      "horario": "19:14:50",
+      "id_transacao": "E60701190202505202214DY5Y3CREYJ5",
+      "codigo_autenticacao": "4BED8A61056BC11A6491598A49BE93112FE73832",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_017.jpg",
+      "valor": "R$ 120,00",
+      "destinatario": {
+        "nome": "David Damasceno da Frota",
+        "cpf": "***072.773-**",
+        "instituicao": "BCO C6 S.A."
+      },
+      "remetente": {
+        "nome": "DAVID DAMASCENO DA FROTA",
+        "cpf": "***072.773-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "22/03/2025",
+      "horario": "08:00:12",
+      "id_transacao": "E00360305202503221059eb0e13cb498",
+      "codigo_operacao": "4415946907",
+      "chave_seguranca": "RA127BZ3VC9PCWQP",
+      "chave_pix": "ab5e3e30-17fa-4c09-aa6e-e928810b4261",
+      "tipo": "Consultar Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_016.jpg",
+      "valor": "R$ 40,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Luciana Pereira de Carvalho",
+        "cpf": "***148.133-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "31234522-7"
+      },
+      "data": "01/06/2025",
+      "horario": "18:14:14",
+      "id_transacao": "E18236120202506012114s123afe14f3",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_031.jpg",
+      "valor": "R$ 38,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Ilma Passos Galeno",
+        "cpf": "***132.723-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "67820867-1"
+      },
+      "data": "01/06/2025",
+      "horario": "18:00:45",
+      "id_transacao": "E18236120202506012100s12ea601bc2",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_032.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Joyce Alves Rodrigues",
+        "cpf": "***178.513-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "42245871-6"
+      },
+      "data": "31/05/2025",
+      "horario": "20:03:23",
+      "id_transacao": "E18236120202505312303s04e1463640",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_033.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Cintia Nascimento de Brito",
+        "cpf": "***522.903-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "57985078-8"
+      },
+      "data": "31/05/2025",
+      "horario": "19:04:41",
+      "id_transacao": "E18236120202505312204s1490615b90",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_034.jpg",
+      "valor": "R$ 17,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS S.A."
+      },
+      "remetente": {
+        "nome": "DEISA ARAUJO PASSOS",
+        "cpf": "***826.623-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL",
+        "nsu": "47555925172"
+      },
+      "data": "31/05/2025",
+      "horario": "19:00",
+      "id_transacao": "E00360305202505312159436eab7c114",
+      "tipo": "Pagamento - Pix"
+    },
+    {
+      "arquivo_origem": "comprovante_035.jpg",
+      "valor": "R$ 34,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Lara Beatriz Pereira Oliveira",
+        "cpf": "***733.223-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "14093984-1"
+      },
+      "data": "31/05/2025",
+      "horario": "18:51:50",
+      "id_transacao": "E18236120202505312151s16d39a4cc4",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_036.jpg",
+      "valor": "R$ 19,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisco Henrique Siqueira da Silva",
+        "cpf": "***637.743-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "42713219-9"
+      },
+      "data": "31/05/2025",
+      "horario": "18:39:19",
+      "id_transacao": "E18236120202505312138s1929921004",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_037.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Vera Lucia Sousa Santos",
+        "cpf": "***099.353-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "15843443-9"
+      },
+      "data": "31/05/2025",
+      "horario": "18:22:46",
+      "id_transacao": "E18236120202505312122s00e163d2f5",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_038.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "LUCILENE ROCHA OLIVINDO",
+        "cpf": "***037.143-**",
+        "instituicao": "BCO DO BRASIL S.A.",
+        "agencia": "2773",
+        "conta": "15271-4",
+        "tipo_conta": "Conta corrente"
+      },
+      "remetente": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4"
+      },
+      "data": "30/05/2025",
+      "horario": "21:26:12",
+      "id_transacao": "D18236120202505310026s177dc84c09",
+      "valor_original": "R$ 30,00",
+      "tipo": "Comprovante de reembolso"
+    },
+    {
+      "arquivo_origem": "comprovante_039.jpg",
+      "valor": "R$ 34,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Socorro A Amaral",
+        "cpf": "***740.023-**",
+        "agencia": "2773-1",
+        "conta": "14996-9",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "30/05/2025",
+      "horario": "19:54:19",
+      "id_transacao": "E00000000202505302253591348949417",
+      "documento": "00000000053001",
+      "autenticacao": "4.9F9.48C.04C.CB6.118",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_040.jpg",
+      "valor": "R$ 26,01",
+      "destinatario": {
+        "nome": "GOGIPSY E/OU GOGIPSY BRASIL",
+        "cnpj": "37.813.735/0001-44",
+        "instituicao": "MERCADO PAGO"
+      },
+      "remetente": {
+        "nome": "DAVID DAMASCENO DA FROTA",
+        "cpf": "***072.773-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "20/05/2025",
+      "horario": "13:44:59",
+      "id_transacao": "E00360305202505201644274674c679",
+      "identificador": "mpqrinter112241714018",
+      "codigo_operacao": "4700999638",
+      "chave_seguranca": "J3P25QJYCNK5K7AQ",
+      "tipo": "Comprovante de Pix enviado com Qr code"
+    },
+    {
+      "arquivo_origem": "comprovante_041.jpg",
+      "valor": "R$ 6,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Wescley Duarte da Silva",
+        "cpf": "***039.924-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "24939460-1"
+      },
+      "data": "20/05/2025",
+      "horario": "19:14:17",
+      "id_transacao": "E18236120202505202214s1101255ac5",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_042.jpg",
+      "valor": "R$ 65,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Jair Brito Rocha",
+        "cpf": "***121.013-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "80218420-4"
+      },
+      "data": "30/05/2025",
+      "horario": "19:47:33",
+      "id_transacao": "E18236120202505302247s136a80acc2",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_043.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Luanne Rocha Magalhães",
+        "cpf": "***320.283-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "61180951-0"
+      },
+      "data": "30/05/2025",
+      "horario": "19:35:19",
+      "id_transacao": "E18236120202505302235s1743b47b7d",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_044.jpg",
+      "valor": "R$ 39,99",
+      "destinatario": {
+        "nome": "MP*PIZZARIANETO",
+        "instituicao": "Nubank **** 2539 Mastercard Crédito"
+      },
+      "remetente": {
+        "nome": "Não especificado",
+        "cpf": "Não especificado",
+        "instituicao": "Não especificado"
+      },
+      "data": "30/05/2025",
+      "horario": "19:36",
+      "id_transacao": "#112898947351",
+      "tipo": "Pagamento aprovado - Mastercard",
+      "observacao": "Sem cobertura de Compra Garantida"
+    },
+    {
+      "arquivo_origem": "comprovante_045.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Lucilene Rocha Olivindo",
+        "cpf": "***037.143-**",
+        "agencia": "2773-1",
+        "conta": "15271-4",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "30/05/2025",
+      "horario": "19:15:33",
+      "id_transacao": "E00000000202505302215001866737210",
+      "documento": "00000000053005",
+      "autenticacao": "7.409.B41.4B1.84A.D93",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_046.jpg",
+      "valor": "R$ 42,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Lucas Rodrigues da Silva",
+        "cpf": "***615.583-**",
+        "agencia": "1157-6",
+        "conta": "51872-7",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "30/05/2025",
+      "horario": "18:32:01",
+      "id_transacao": "E00000000202505302131501205794l7",
+      "documento": "000000000053001",
+      "autenticacao": "2.3B0.008.CBC.75F.3A7",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_047.jpg",
+      "valor": "R$ 50,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Aldenor Tomaz de Oliveira Júnior",
+        "cpf": "***200.433-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "43865038-6"
+      },
+      "data": "30/05/2025",
+      "horario": "18:32:16",
+      "id_transacao": "E18236120202505302132s1604a07eb3",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_048.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Gilberto Carvalho Araújo",
+        "cpf": "***154.463-**",
+        "agencia": "2773-1",
+        "conta": "33614-X",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "30/05/2025",
+      "horario": "17:53:29",
+      "id_transacao": "E00000000202505302053141474999137",
+      "documento": "000000000053003",
+      "autenticacao": "B.DBE.A7D.1FD.ACA.3B8",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_049.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos - Ip"
+      },
+      "remetente": {
+        "nome": "DIEGO ARMANDO DE SOUSA GOMES",
+        "cpf": "***420.723-**",
+        "instituicao": "Banco Inter S.A."
+      },
+      "data": "29/05/2025",
+      "horario": "21h31",
+      "id_transacao": "E00416968202505300030Ek60mk1AVGT",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_050.jpg",
+      "valor": "R$ 54,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Wescley Duarte da Silva",
+        "cpf": "***039.924-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "24939460-1"
+      },
+      "data": "29/05/2025",
+      "horario": "19:05:54",
+      "id_transacao": "E18236120202505292205s1186dcd65d",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_051.jpg",
+      "valor": "R$ 20,00",
+      "destinatario": {
+        "nome": "M4 PRODUTOS E SERVICOS LTDA",
+        "cnpj": "09.614.276/0001-34",
+        "instituicao": "BCO ARBI S.A."
+      },
+      "remetente": {
+        "nome": "DAVID DAMASCENO DA FROTA",
+        "cpf": "***072.773-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "23/05/2025",
+      "horario": "05:23:20",
+      "id_transacao": "E00360305202505230823785735f7cd4",
+      "codigo_operacao": "4714128631",
+      "chave_seguranca": "NP5RH0LAMQ091HF4",
+      "identificador": "c70161266eed4acaao5d5f13edbf9433",
+      "tipo": "Comprovante Pix com QR code"
+    },
+    {
+      "arquivo_origem": "comprovante_052.jpg",
+      "valor": "R$ 33,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4"
+      },
+      "remetente": {
+        "nome": "Antônio Valmi Passos da Rocha",
+        "cpf": "***097.048-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "74105044-7"
+      },
+      "data": "29/05/2025",
+      "horario": "18:40:14",
+      "id_transacao": "E18236120202505292140s023f38e2e9",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_053.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Antonio Luan Araújo da Soledade",
+        "cpf": "***598.043-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "88782684-8"
+      },
+      "data": "20/05/2025",
+      "horario": "19:03:37",
+      "id_transacao": "E18236120202505202203s04d5aa8e02",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_054.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisco Eduardo Araújo",
+        "cpf": "***578.753-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "36839961-3"
+      },
+      "data": "29/05/2025",
+      "horario": "18:32:07",
+      "id_transacao": "E18236120202505292131s10f48b6e8e",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_055.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "YASMIM RENARA SOUSA DE ASSIS",
+        "cpf": "***624.013-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "7696",
+        "conta": "0042788-4"
+      },
+      "data": "28/05/2025",
+      "horario": "21:24:29",
+      "id_transacao": "E6070119020250529024DY5M7PVKBWO",
+      "codigo_autenticacao": "27C57B3BB38EE6CF7467C23CEF2F0A8959C1FBBC",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_056.jpg",
+      "valor": "R$ 32,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Janildo Souza de Carvalho",
+        "cpf": "***714.753-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "83258099-2"
+      },
+      "data": "28/05/2025",
+      "horario": "20:37:45",
+      "id_transacao": "E18236120202505282337s135f9e021c",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_057.jpg",
+      "valor": "R$ 101,03",
+      "destinatario": {
+        "nome": "EC *PIZZARIANETO",
+        "instituicao": "EMPRESA BRASILEIRA **** 7387 Visa Crédito"
+      },
+      "remetente": {
+        "nome": "Não especificado",
+        "cpf": "Não especificado",
+        "instituicao": "Não especificado"
+      },
+      "data": "28/05/2025",
+      "horario": "Não especificado",
+      "id_transacao": "#113143084736",
+      "tipo": "Pagamento aprovado - Mercado Pago",
+      "observacao": "Sem cobertura de Compra Garantida"
+    },
+    {
+      "arquivo_origem": "comprovante_058.jpg",
+      "valor": "R$ 27,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ariete Passos Santos de Oliveira",
+        "cpf": "***253.853-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "41317253-7"
+      },
+      "data": "28/05/2025",
+      "horario": "18:53:07",
+      "id_transacao": "E18236120202505282152s1519b3e95c",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_059.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "GABRIELA CARVALHO ARAUJO",
+        "cpf": "***902.593-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "7410",
+        "conta": "0042280-7"
+      },
+      "data": "28/05/2025",
+      "horario": "18:24:24",
+      "id_transacao": "E6070119020250528212DY5MWATKAUD",
+      "codigo_autenticacao": "82792A64E9E0D4D0BFD0AD8ABC4D666F01D6746C",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_060.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4"
+      },
+      "remetente": {
+        "nome": "Maria da Conceição Borges Pacheco",
+        "cpf": "***956.803-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "1031146-9"
+      },
+      "data": "28/05/2025",
+      "horario": "18:23:23",
+      "id_transacao": "E18236120202505282123s050ac2ff09",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_061.jpg",
+      "valor": "R$ 38,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS S.A.",
+        "banco_destino": "NU PAGAMENTOS S.A."
+      },
+      "remetente": {
+        "nome": "CARLOS GABRIEL PEREIRA OLIVEIRA",
+        "cpf": "***241.903-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "28/05/2025",
+      "horario": "13:58",
+      "id_transacao": "E00360305202505281657f67ad11723",
+      "nsu": "47382330049",
+      "tipo": "Pagamento - Pix"
+    },
+    {
+      "arquivo_origem": "comprovante_062.jpg",
+      "valor": "R$ 178,00",
+      "destinatario": {
+        "nome": "David Damasceno da Frota",
+        "cpf": "***072.773-**",
+        "instituicao": "BCO C6 S.A."
+      },
+      "remetente": {
+        "nome": "DAVID DAMASCENO DA FROTA",
+        "cpf": "***072.773-**",
+        "instituicao": "CAIXA ECONÔMICA FEDERAL"
+      },
+      "data": "29/05/2025",
+      "horario": "16:48:58",
+      "id_transacao": "E00360305202505291948911b814907e",
+      "codigo_operacao": "47437902975",
+      "chave_seguranca": "BSU10AASNVACE4Z4",
+      "chave_pix": "04907277350",
+      "situacao": "Efetivado",
+      "tipo": "Comprovante de Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_063.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francineida de Sousa Pacheco",
+        "cpf": "***179.003-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "40894261-6"
+      },
+      "data": "27/05/2025",
+      "horario": "21:02:30",
+      "id_transacao": "E18236120202505280002s11e0c13b35",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_064.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Carlos Roberto Batista da Silva",
+        "cpf": "***782.583-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "322463603-4"
+      },
+      "data": "27/05/2025",
+      "horario": "19:52:10",
+      "id_transacao": "E18236120202505272251s18c3272f82",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_065.jpg",
+      "valor": "R$ 27,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Wescley Duarte da Silva",
+        "cpf": "***039.924-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "24939460-1"
+      },
+      "data": "20/05/2025",
+      "horario": "19:02:14",
+      "id_transacao": "E18236120202505202202s11e01236304",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_066.jpg",
+      "valor": "R$ 18,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Araujo Nunes",
+        "cpf": "***671.423-**",
+        "agencia": "2773-1",
+        "conta": "24914-9",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "27/05/2025",
+      "horario": "19:50:25",
+      "id_transacao": "E00000000202505272250005170817305",
+      "documento": "000000000052702",
+      "autenticacao": "3.262.7FA.E85.4AA.C03",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_067.jpg",
+      "valor": "R$ 39,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "GABRIELA CARVALHO ARAUJO",
+        "cpf": "***902.593-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "7410",
+        "conta": "0042280-7"
+      },
+      "data": "27/05/2025",
+      "horario": "19:41:12",
+      "id_transacao": "E60701190202505272239DY50CS7BE44",
+      "codigo_autenticacao": "C477432292916821D63DB19401OFF6561212 3E6B",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_068.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "NAYLA ARAUJO DO CARMO",
+        "cpf": "***153.872-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "8373",
+        "conta": "0083554-8"
+      },
+      "data": "27/05/2025",
+      "horario": "19:20:10",
+      "id_transacao": "E60701190202505272219DY5EOJS6650",
+      "codigo_autenticacao": "D12E75F6935BF6DD966322C7FEDC0723774 FBE23",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_069.jpg",
+      "valor": "R$ 58,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ariele Rodrigues dos Santos",
+        "cpf": "***949.393-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "400419084-9"
+      },
+      "data": "27/05/2025",
+      "horario": "19:18:40",
+      "id_transacao": "E18236120202505272218s11533d5590",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_070.jpg",
+      "valor": "R$ 43,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Aurivando Siqueira Sousa",
+        "cpf": "***158.623-**",
+        "agencia": "1157-6",
+        "conta": "30592-8",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "27/05/2025",
+      "horario": "18:53:36",
+      "id_transacao": "E00000000202505272153222525177220",
+      "documento": "000000000052701",
+      "autenticacao": "7C5A.906.EEF.F4F.248",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_071.jpg",
+      "valor": "R$ 28,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Fernando Galeno de Olivindo",
+        "cpf": "***664.313-**",
+                            
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "53092229-6"
+      },
+      "data": "27/05/2025",
+      "horario": "18:11:43",
+      "id_transacao": "E18236120202505272111s15c22ae8b8",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_072.jpg",
+      "valor": "R$ 6,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Afonso Francisco Passos Junior",
+        "cpf": "***402.793-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "36848984-9"
+      },
+      "data": "25/05/2025",
+      "horario": "20:54:29",
+      "id_transacao": "E18236120202505252354s01b1e64e32",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_073.jpg",
+      "valor": "R$ 42,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa Dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos S.A. - Instituição de Pagamento"
+      },
+      "remetente": {
+        "nome": "Lucas Rodrigues Da Silva",
+        "cpf": "***615.583-**",
+        "instituicao": "Banco BTG Pactual S.A."
+      },
+      "data": "20/05/2025",
+      "horario": "20:42:07",
+      "id_transacao": "E30306294202505202341000000024bns",
+      "codigo_autenticacao": "f06ff61c057d46cfb7840bfbab883e99",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_074.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Afonso Francisco Passos Junior",
+        "cpf": "***402.793-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "36848984-9"
+      },
+      "data": "25/05/2025",
+      "horario": "20:38:38",
+      "id_transacao": "E18236120202505252338s01236185896",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_075.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francieldo Sales Eduardo",
+        "cpf": "***714.923-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "31896112-3"
+      },
+      "data": "25/05/2025",
+      "horario": "20:02:20",
+      "id_transacao": "E18236120202505252302s0857ee4143",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_076.jpg",
+      "valor": "R$ 25,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Aurélio Silva do Nascimento",
+        "cpf": "***996.503-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "57767724-8"
+      },
+      "data": "25/05/2025",
+      "horario": "19:50:28",
+      "id_transacao": "E18236120202505252249s04711f8861",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_077.jpg",
+      "valor": "R$ 37,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Arauújo Nunes",
+        "cpf": "***671.423-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "4393325-8"
+      },
+      "data": "20/05/2025",
+      "horario": "18:48:06",
+      "id_transacao": "E18236120202505202147s078d06ca07",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_078.jpg",
+      "valor": "R$ 56,83",
+      "destinatario": {
+        "nome": "Mp *Pizzarianeto",
+        "cartao_fisico": "**** 2539"
+      },
+      "remetente": {
+        "nome": "Não especificado",
+        "cpf": "Não especificado",
+        "instituicao": "Não especificado"
+      },
+      "data": "25/05/2025",
+      "horario": "19:35",
+      "estabelecimento": "Mp *Pizzarianeto",
+      "tipo": "Compra à vista"
+    },
+    {
+      "arquivo_origem": "comprovante_079.jpg",
+      "valor": "R$ 37,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Araujo Nunes",
+        "cpf": "***671.423-**",
+        "agencia": "2773-1",
+        "conta": "24914-9",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "25/05/2025",
+      "horario": "19:19:23",
+      "id_transacao": "E00000000202505252218451859062866",
+      "documento": "000000000052601",
+      "autenticacao": "1.01E.9B3.4177E4.1E6",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_080.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisco F M Martins",
+        "cpf": "***474.843-**",
+        "agencia": "2773-1",
+        "conta": "16477-1",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "25/05/2025",
+      "horario": "18:58:00",
+      "id_transacao": "E00000000202505251573928675196",
+      "documento": "000000000052608",
+      "autenticacao": "D.B05.40F.DF3.544.761",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_086.jpg",
+      "valor": "R$ 39,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Luciana Pereira de Carvalho",
+        "cpf": "***148.133-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "31234522-7"
+      },
+      "data": "25/05/2025",
+      "horario": "18:04:32",
+      "id_transacao": "E18236120202505252104s12cb54b015",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_087.jpg",
+      "valor": "R$ 36,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Carlos Daniel Félix de Araújo",
+        "cpf": "***372.633-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "74103703-1"
+      },
+      "data": "24/05/2025",
+      "horario": "20:09:40",
+      "id_transacao": "E18236120202505242308s16ce7a2954",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_088.jpg",
+      "valor": "R$ 38,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos - Ip"
+      },
+      "remetente": {
+        "nome": "ISABEL CRISTINA DE ARAUJO COSTA",
+        "cpf": "***807.413-**",
+        "instituicao": "Banco Inter S.A."
+      },
+      "data": "24/05/2025",
+      "horario": "19h49",
+      "id_transacao": "E00416968202505242248DqBT1aBIhZz",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_089.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "45750536-4"
+      },
+      "remetente": {
+        "nome": "Carlos Vitor Rodrigues da Silva",
+        "cpf": "***493.333-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "57659365-0"
+      },
+      "data": "20/05/2025",
+      "horario": "18:47:39",
+      "id_transacao": "E18236120202505202147s056a701fc2",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_090.jpg",
+      "valor": "R$ 18,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "4575056-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Arauújo Nunes",
+        "cpf": "***671.423-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "4393325-8"
+      },
+      "data": "24/05/2025",
+      "horario": "19:20:41",
+      "id_transacao": "E18236120202505242220s070088706f",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_091.jpg",
+      "valor": "R$ 43,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francisco Silva Sousa",
+        "cpf": "***488.403-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "78733805-7"
+      },
+      "data": "24/05/2025",
+      "horario": "18:31:39",
+      "id_transacao": "E18236120202505242131s19646f1ff2",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_092.jpg",
+      "valor": "R$ 67,35",
+      "destinatario": {
+        "nome": "Pizzaria O Neto",
+        "cartao_fisico": "Visa terminado em 7387"
+      },
+      "remetente": {
+        "nome": "Não especificado",
+        "cpf": "Não especificado",
+        "instituicao": "Não especificado"
+      },
+      "data": "Não especificado",
+      "horario": "Não especificado",
+      "descricao": "1 Link de pagamento",
+      "observacao": "Você verá este pagamento na fatura do seu cartão como 'EC *PIZZARIANETO'",
+      "tipo": "Compra à vista"
+    },
+    {
+      "arquivo_origem": "comprovante_093.jpg",
+      "valor": "R$ 30,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "45750564",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Cristina S Cardoso",
+        "cpf": "***883.953-**",
+        "agencia": "2773-1",
+        "conta": "18791-7",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "23/05/2025",
+      "horario": "21:51:16",
+      "id_transacao": "E00000000202505240050448985485533",
+      "documento": "000000000052301",
+      "autenticacao": "2.60F.D59.82F.830.C8F",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_094.jpg",
+      "valor": "R$ 18,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Ana Viviane Arauújo Nunes",
+        "cpf": "***671.423-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "4393325-8"
+      },
+      "data": "23/05/2025",
+      "horario": "19:45:09",
+      "id_transacao": "E18236120202505232244s07d01f0f57",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_095.jpg",
+      "valor": "R$ 34,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "45750564",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maiane Sales de Sousa",
+        "cpf": "***238.473-**",
+        "agencia": "2773-1",
+        "conta": "21709-3",
+        "instituicao": "00000000 BCO DO BRASIL S.A."
+      },
+      "data": "20/05/2025",
+      "horario": "18:00:46",
+      "id_transacao": "E00000000202505202100254959640412",
+      "documento": "000000000052001",
+      "autenticacao": "F.DE0.B33.8C9.419.015",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_096.jpg",
+      "valor": "R$ 40,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Aparecida da Silva Justino",
+        "cpf": "***445.213-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "48123113-3"
+      },
+      "data": "23/05/2025",
+      "horario": "19:28:21",
+      "id_transacao": "E18236120202505232228s15af9b78b5",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_097.jpg",
+      "valor": "R$ 42,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Bruno Passos de Andrade",
+        "cpf": "***106.773-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "54259196-7"
+      },
+      "data": "23/05/2025",
+      "horario": "19:09:37",
+      "id_transacao": "E18236120202505232209s028dfd202d",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_098.jpg",
+      "valor": "R$ 45,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Gabriele Gomes de Albuquerque",
+        "cpf": "***720.103-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "32249811-3"
+      },
+      "data": "23/05/2025",
+      "horario": "18:38:11",
+      "id_transacao": "E18236120202505232138s05524901d4",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_099.jpg",
+      "valor": "R$ 43,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Gabriela Rodrigues Marques",
+        "cpf": "***082.833-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "74223958-8"
+      },
+      "data": "23/05/2025",
+      "horario": "18:21:25",
+      "id_transacao": "E18236120202505232121s072daf10dc",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_100.jpg",
+      "valor": "R$ 35,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Rosilene Oliveira de Siqueira",
+        "cpf": "***115.463-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "36435413-1"
+      },
+      "data": "23/05/2025",
+      "horario": "17:53:05",
+      "id_transacao": "E18236120202505232052s16c1eae9f0",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_101.jpg",
+      "valor": "R$ 43,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa Dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "(88) 99451-5533"
+      },
+      "remetente": {
+        "nome": "Aurivando Siqueira De Sousa",
+        "cpf": "***158.623-**",
+        "instituicao": "Will Bank"
+      },
+      "data": "20/05/2025",
+      "horario": "18:38:08",
+      "id_transacao": "E2386276220250520213PF7HZ5UT1O1",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_102.jpg",
+      "valor": "R$ 61,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Francineida de Sousa Pacheco",
+        "cpf": "***179.003-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "40894261-6"
+      },
+      "data": "22/05/2025",
+      "horario": "22:27:09",
+      "id_transacao": "E18236120202505230126s113bdeb496",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_103.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maciano Costa da Silva",
+        "cpf": "***632.183-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "35772978-0"
+      },
+      "data": "22/05/2025",
+      "horario": "20:23:13",
+      "id_transacao": "E18236120202505222322s1460138e6b",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_104.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Maria Micaele de Araújo",
+        "cpf": "***689.833-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "4884409-2"
+      },
+      "data": "22/05/2025",
+      "horario": "20:16:44",
+      "id_transacao": "E18236120202505222316s04f3710e22",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_105.jpg",
+      "valor": "R$ 29,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "ANA LUCIA COSTA DE ARAUJO",
+        "cpf": "***417.993-**",
+        "instituicao": "ITAU UNIBANCO S.A",
+        "agencia": "8789",
+        "conta": "0078741-6"
+      },
+      "data": "22/05/2025",
+      "horario": "18:13:27",
+      "id_transacao": "E60701190202505222112DY51CYAAWLS",
+      "codigo_autenticacao": "27C036851E483676A428C29460BF25C7AC7CDA6D",
+      "tipo": "Comprovante de transferência Pix por chave"
+    },
+    {
+      "arquivo_origem": "comprovante_081.jpg",
+      "valor": "R$ 31,00",
+      "destinatario": {
+        "nome": "Natanael da Silva Pereira",
+        "cpf": "***302.583-**",
+        "instituicao": "PICPAY",
+        "tipo_conta": "Conta de pagamentos"
+      },
+      "remetente": {
+        "nome": "Francisco Ismael de Assis Oliveira",
+        "cpf": "***370.063-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "30231152-3"
+      },
+      "data": "25/05/2025",
+      "horario": "18:56:52",
+      "id_transacao": "E18236120202505252156s0825f8ec06",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    },
+    {
+      "arquivo_origem": "comprovante_082.jpg",
+      "valor": "R$ 63,00",
+      "destinatario": {
+        "nome": "ANA CLEUMA SOUSA DOS SANTOS",
+        "cpf": "***120.983-**",
+        "instituicao": "NU PAGAMENTOS S.A.",
+        "chave_pix": "88****5533"
+      },
+      "remetente": {
+        "nome": "JOELSON LIMA CARVALHO",
+        "cnpj": "19.218.108/0001-83",
+        "instituicao": "CLOUDWALK IP LTDA"
+      },
+      "data": "25/05/2025",
+      "horario": "18:54",
+      "id_transacao": "E18189547202505252154qiTYX1ljSxd",
+      "tipo": "Comprovante de transferência Pix"
+    },
+    {
+      "arquivo_origem": "comprovante_083.jpg",
+      "valor": "R$ 23,00",
+      "destinatario": {
+        "nome": "Ana C Sousa Santos",
+        "cpf": "***120.983-**",
+        "agencia": "0001",
+        "conta": "457505364",
+        "instituicao": "18236120 NU PAGAMENTOS - IP",
+        "tipo_conta": "Conta Pagamento",
+        "chave_pix": "+558899451533"
+      },
+      "remetente": {
+        "nome": "Francisco R B Chaves",
+        "cpf": "***045.743-**",
+        "agencia": "2773-1",
+        "conta": "26521-7",
+        "instituicao": "00000000 BCO DO BRASIL S.A.",
+        "variacao": "51"
+      },
+      "data": "25/05/2025",
+      "horario": "18:29:16",
+      "id_transacao": "E00000000202505252129079079134O1",
+      "documento": "000000000052605",
+      "autenticacao": "2.66D.3B5.176.077.B3F",
+      "tipo": "Comprovante BB Pix Enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_084.jpg",
+      "valor": "R$ 35,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nu Pagamentos - Ip"
+      },
+      "remetente": {
+        "nome": "ISABEL CRISTINA DE ARAUJO COSTA",
+        "cpf": "***807.413-**",
+        "instituicao": "Banco Inter S.A."
+      },
+      "data": "20/05/2025",
+      "horario": "18:28",
+      "id_transacao": "E00416968202505520212BIAVBnaWmcau",
+      "tipo": "Pix enviado"
+    },
+    {
+      "arquivo_origem": "comprovante_085.jpg",
+      "valor": "R$ 34,00",
+      "destinatario": {
+        "nome": "Ana Cleuma Sousa dos Santos",
+        "cpf": "***120.983-**",
+        "instituicao": "Nubank",
+        "agencia": "0001",
+        "conta": "45750536-4",
+        "chave_pix": "+5588994515533"
+      },
+      "remetente": {
+        "nome": "Deiciane Costa Silva",
+        "cpf": "***727.333-**",
+        "instituicao": "NU PAGAMENTOS - IP",
+        "agencia": "0001",
+        "conta": "51398249-7"
+      },
+      "data": "25/05/2025",
+      "horario": "18:27:22",
+      "id_transacao": "E18236120202505252127s05695478db",
+      "cnpj": "18.236.120/0001-58",
+      "tipo": "Comprovante de transferência"
+    }
+  ],
+  "resumo": {
+    "total_comprovantes": 104,
+    "valor_total": "R$ 4.705,10",
+    "periodo": "16/03/2025 a 04/06/2025"
+  }
+}
+
+
+
