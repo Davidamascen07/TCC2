@@ -315,3 +315,4 @@ def main():
 if __name__ == "__main__":
     main()
 
+# corrigir warning: in the working copy of 'src/ocr/extractor2.py', LF will be replaced by CRLF the next time Git touches it

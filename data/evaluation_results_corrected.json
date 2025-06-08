@@ -1,0 +1,41 @@
+{
+  "timestamp": "2025-06-08T18:00:31.757697",
+  "metrics": {
+    "total_files": 1,
+    "successful_extractions": 0,
+    "success_rate": 0.0,
+    "field_extraction_rates": {
+      "valor": 0.0,
+      "data": 0.0,
+      "destinatario": 0.0,
+      "remetente": 0.0,
+      "cpfs": 0.0,
+      "id_transacao": 0.0
+    },
+    "avg_processing_time": 0.0,
+    "avg_score": 0.0
+  },
+  "detailed_results": [
+    {
+      "file": "WhatsApp Image 2025-06-05 at 14.36.55.jpeg",
+      "result": {
+        "arquivo_origem": "WhatsApp Image 2025-06-05 at 14.36.55.jpeg",
+        "status": "error",
+        "erro": "'ComprovantePIXExtractor' object has no attribute '_calculate_extraction_success'",
+        "timestamp": "2025-06-08 18:00:31.757697"
+      },
+      "evaluation": {
+        "has_valor": false,
+        "has_data": false,
+        "has_destinatario": false,
+        "has_remetente": false,
+        "has_cpfs": false,
+        "has_id_transacao": false,
+        "score": 0,
+        "processing_time": 0,
+        "status": "error",
+        "custom_score": 0.0
+      }
+    }
+  ]
+}

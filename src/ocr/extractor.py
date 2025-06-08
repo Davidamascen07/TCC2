@@ -750,10 +750,10 @@ class ComprovantePIXExtractor:
         
         # Destinatário e Remetente (melhorado)
         name_patterns = [
-            r'destino[\s\S]*?nome[\s:]*([A-ZÁ-Ú][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
-            r'nome[\s:]*([A-ZÁ-Ú][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
-            r'para[\s:]*([A-ZÁ-Ú][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
-            r'de[\s:]*([A-ZÁ-Ú][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)'
+            r'destino[\s\S]*?nome[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
+            r'nome[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
+            r'para[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)',
+            r'de[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-zÀ-ÿ\s]+?)(?=\n|\s{3,}|instituição|agência|cpf|$)'
         ]
         
         for pattern in name_patterns:
@@ -911,3 +911,354 @@ class ComprovantePIXExtractor:
                 'erro': str(e),
                 'timestamp': str(datetime.now())
             }
+    
+    def preprocess_image_ultra_fast(self, image_path: str) -> np.ndarray:
+        """Pré-processamento ULTRA RÁPIDO - Uma única operação otimizada"""
+        try:
+            import time
+            start_time = time.time()
+            
+            img = cv2.imread(image_path)
+            if img is None:
+                raise ValueError(f"Não foi possível carregar a imagem: {image_path}")
+            
+            # 1. Redimensionar APENAS se muito grande (otimização crítica)
+            height, width = img.shape[:2]
+            if width > 600:  # Reduzido ainda mais para 600px
+                scale = 600 / width
+                new_width = int(width * scale)
+                new_height = int(height * scale)
+                img = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_AREA)
+                logger.info(f"Imagem redimensionada para: {new_width}x{new_height}")
+            
+            # 2. Conversão direta para cinza
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            
+            # 3. UMA ÚNICA operação de melhoria
+            enhanced = cv2.convertScaleAbs(gray, alpha=1.3, beta=15)
+            
+            processing_time = time.time() - start_time
+            logger.info(f"Pré-processamento ultra-rápido: {processing_time:.3f}s")
+            return enhanced
+            
+        except Exception as e:
+            logger.error(f"Erro no pré-processamento: {e}")
+            img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+            return img if img is not None else np.zeros((100,100), dtype=np.uint8)
+
+    def extract_text_ultra_fast(self, image_path: str) -> str:
+        """Extração de texto ULTRA OTIMIZADA - Apenas 1 configuração"""
+        try:
+            import time
+            start_time = time.time()
+            
+            # Usar APENAS UMA versão pré-processada
+            processed_img = self.preprocess_image_ultra_fast(image_path)
+            
+            # Usar APENAS a melhor configuração
+            config = '--psm 6 --oem 3'  # A que funciona melhor para comprovantes
+            
+            text = pytesseract.image_to_string(processed_img, lang='por', config=config)
+            
+            processing_time = time.time() - start_time
+            logger.info(f"OCR ultra-rápido: {processing_time:.3f}s - {len(text)} caracteres")
+            return text
+            
+        except Exception as e:
+            logger.error(f"Erro na extração ultra-rápida: {e}")
+            return ""
+
+    def extract_with_templates_ultra_fast(self, text: str, bank: str) -> Dict:
+        """Extração ULTRA RÁPIDA - Apenas padrões essenciais"""
+        import time
+        start_time = time.time()
+        data = {}
+        
+        if bank not in self.templates:
+            return self.extract_structured_data_minimal(text)
+        
+        template = self.templates[bank]
+        text_lower = text.lower()
+        
+        # VALOR - Apenas o primeiro padrão que funciona
+        if 'valor_patterns' in template:
+            for pattern in template['valor_patterns'][:2]:  # Apenas 2 tentativas
+                match = re.search(pattern, text_lower, re.IGNORECASE)
+                if match:
+                    valor = match.group(1) if match.groups() else match.group(0)
+                    data['valor'] = f"R$ {valor}" if not valor.startswith('R$') else valor
+                    break
+        
+        # DATA - Apenas os 2 primeiros padrões
+        if 'data_patterns' in template:
+            for pattern in template['data_patterns'][:2]:
+                match = re.search(pattern, text_lower, re.IGNORECASE)
+                if match:
+                    groups = match.groups()
+                    if len(groups) >= 3:
+                        dia, mes, ano = groups[0], groups[1], groups[2]
+                        if not mes.isdigit():
+                            meses = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
+                                    'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'}
+                            mes = meses.get(mes.lower().replace('.',''), '01')
+                        data['data'] = f"{dia.zfill(2)}/{mes.zfill(2)}/{ano}"
+                    break
+        
+        # NOMES - Método simplificado
+        nomes = self._extract_names_minimal(text, template)
+        data.update(nomes)
+        
+        # CPFs - Método simplificado
+        cpfs = self._extract_cpfs_minimal(text, template)
+        if cpfs:
+            data['cpfs'] = cpfs
+        
+        # ID TRANSAÇÃO - Apenas o primeiro padrão
+        if 'id_patterns' in template:
+            pattern = template['id_patterns'][0]
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                data['id_transacao'] = match.group(1) if match.groups() else match.group(0)
+        
+        processing_time = time.time() - start_time
+        logger.info(f"Extração template ultra-rápida: {processing_time:.3f}s")
+        return data
+
+    def _extract_names_minimal(self, text: str, template: Dict) -> Dict:
+        """Extração de nomes MÍNIMA e rápida COM MELHORIAS"""
+        nomes = {}
+        
+        # Padrões específicos do template primeiro
+        if 'nome_patterns' in template:
+            patterns = template['nome_patterns'][:2]
+        else:
+            patterns = []
+        
+        # Adicionar padrões genéricos melhorados
+        patterns.extend([
+            r'(?:nome|destinat[aá]rio)[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-záêçõíóúàâãôûü\s]{3,40})',
+            r'(?:para|destino)[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-záêçõíóúàâãôûü\s]{3,40})',
+            r'(?:de|origem|remetente)[\s:]*([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-záêçõíóúàâãôûü\s]{3,40})',
+            # Padrão para nomes após CPF
+            r'\*{3}\.?\d{3}\.?\d{3}-?\*{2}[\s\n]+([A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-záêçõíóúàâãôûü\s]{3,40})',
+        ])
+        
+        for pattern in patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE | re.MULTILINE)
+            for match in matches:
+                nome = match.strip().title()
+                # Limpar caracteres especiais
+                nome_limpo = re.sub(r'[^\w\s]', '', nome).strip()
+                
+                # Validação melhorada
+                if (len(nome_limpo) > 3 and len(nome_limpo) < 50 and
+                    not any(char.isdigit() for char in nome_limpo) and
+                    nome_limpo.lower() not in ['nome', 'destinatario', 'remetente', 'para', 'destino']):
+                    
+                    if 'destinatario' not in nomes:
+                        nomes['destinatario'] = nome_limpo
+                        logger.info(f"Destinatário extraído: {nome_limpo}")
+                    elif 'remetente' not in nomes and nome_limpo != nomes.get('destinatario'):
+                        nomes['remetente'] = nome_limpo
+                        logger.info(f"Remetente extraído: {nome_limpo}")
+                    
+                    if len(nomes) >= 2:
+                        break
+            
+            if len(nomes) >= 2:
+                break
+        
+        # Fallback: buscar nomes em linhas separadas
+        if not nomes:
+            lines = text.split('\n')
+            for line in lines:
+                line = line.strip()
+                # Procurar por linhas que parecem nomes (2-4 palavras capitalizadas)
+                if re.match(r'^[A-ZÁÊÇÕÍÓÚÀÂÃÔÛÜ][A-Za-záêçõíóúàâãôûü]+(?:\s+[A-Za-záêçõíóúàâãôûü]+){1,3}$', line):
+                    if len(line) > 6 and len(line) < 50:
+                        if 'destinatario' not in nomes:
+                            nomes['destinatario'] = line.title()
+                            logger.info(f"Destinatário extraído (fallback): {line.title()}")
+                            break
+        
+        return nomes
+
+    def _extract_cpfs_minimal(self, text: str, template: Dict) -> List[str]:
+        """Extração de CPFs MÍNIMA e rápida COM MELHORIAS"""
+        cpfs = []
+        
+        # Padrões específicos do template primeiro
+        if 'cpf_patterns' in template:
+            for pattern in template['cpf_patterns']:
+                matches = re.findall(pattern, text, re.IGNORECASE)
+                cpfs.extend(matches)
+        
+        # Padrões genéricos melhorados
+        generic_patterns = [
+            r'\*{3}\.?\d{3}\.?\d{3}-?\*{2}',  # CPF mascarado padrão
+            r'\*{3}\s*\d{3}\s*\d{3}\s*\*{2}',  # Com espaços
+            r'\d{3}\.\*{3}\.\*{3}-\d{2}',  # Parcialmente mascarado
+            r'\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}',  # CNPJ
+            r'(?:cpf|documento)[\s:]*[\*\d\.\-\s]{11,18}',  # Contexto CPF
+        ]
+        
+        for pattern in generic_patterns:
+            matches = re.findall(pattern, text, re.IGNORECASE)
+            for match in matches:
+                cpf_limpo = match.strip()
+                # Validar tamanho mínimo
+                if len(cpf_limpo) >= 8 and cpf_limpo not in cpfs:
+                    cpfs.append(cpf_limpo)
+        
+        # Retornar apenas os primeiros 3 únicos
+        unique_cpfs = list(dict.fromkeys(cpfs))[:3]
+        
+        if unique_cpfs:
+            logger.info(f"CPFs/CNPJs extraídos: {unique_cpfs}")
+        
+        return unique_cpfs
+
+    def extract_structured_data_minimal(self, text: str) -> Dict:
+        """Extração genérica MÍNIMA COM MELHORIAS quando não há template"""
+        data = {}
+        
+        # Padrões básicos melhorados
+        patterns = {
+            'valor': [
+                r'r\$\s*(\d+[.,]\d{2})',
+                r'valor[\s:]*r\$\s*(\d+[.,]\d{2})',
+                r'(\d+,\d{2})'
+            ],
+            'data': [
+                r'(\d{2})/(\d{2})/(\d{4})',
+                r'(\d{1,2})\s+(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\.?\s+(\d{4})'
+            ],
+            'id_transacao': [
+                r'E\d{11,20}[a-zA-Z0-9]+',
+                r'ID[\s:]*([A-Z0-9]{15,30})',
+                r'(?:transação|transacao)[\s:]*([A-Z0-9]{15,30})'
+            ]
+        }
+        
+        for field, pattern_list in patterns.items():
+            for pattern in pattern_list:
+                match = re.search(pattern, text, re.IGNORECASE)
+                if match:
+                    if field == 'data' and len(match.groups()) >= 3:
+                        if isinstance(match.group(2), str) and not match.group(2).isdigit():
+                            # Mês por extenso
+                            dia, mes_txt, ano = match.group(1), match.group(2), match.group(3)
+                            meses = {'jan':'01','fev':'02','mar':'03','abr':'04','mai':'05','jun':'06',
+                                    'jul':'07','ago':'08','set':'09','out':'10','nov':'11','dez':'12'}
+                            mes = meses.get(mes_txt.lower().replace('.',''), '01')
+                            data[field] = f"{dia.zfill(2)}/{mes}/{ano}"
+                        else:
+                            data[field] = f"{match.group(1).zfill(2)}/{match.group(2).zfill(2)}/{match.group(3)}"
+                    else:
+                        data[field] = match.group(1) if match.groups() else match.group(0)
+                    break
+        
+        # Extrair nomes usando método melhorado
+        nomes = self._extract_names_minimal(text, {})
+        data.update(nomes)
+        
+        # Extrair CPFs usando método melhorado
+        cpfs = self._extract_cpfs_minimal(text, {})
+        if cpfs:
+            data['cpfs'] = cpfs
+        
+        return data
+
+    def process_comprovante_ultra_fast(self, image_path: str) -> Dict:
+        """Processamento ULTRA RÁPIDO - Otimizado para velocidade máxima"""
+        try:
+            import time
+            start_total = time.time()
+            
+            logger.info(f"🚀 PROCESSAMENTO ULTRA RÁPIDO: {image_path}")
+            
+            if not Path(image_path).exists():
+                raise FileNotFoundError(f"Arquivo não encontrado: {image_path}")
+            
+            # Etapa 1: OCR ULTRA RÁPIDO
+            start_ocr = time.time()
+            text = self.extract_text_ultra_fast(image_path)
+            ocr_time = time.time() - start_ocr
+            
+            if not text.strip():
+                return {
+                    'arquivo_origem': Path(image_path).name,
+                    'status': 'error',
+                    'erro': 'Nenhum texto extraído'
+                }
+            
+            # Etapa 2: Identificação de banco RÁPIDA
+            start_bank = time.time()
+            bank = self.identify_bank_fast(text)
+            bank_time = time.time() - start_bank
+            
+            # Etapa 3: Extração ULTRA RÁPIDA
+            start_extract = time.time()
+            structured_data = self.extract_with_templates_ultra_fast(text, bank)
+            extract_time = time.time() - start_extract
+            
+            # Score de sucesso
+            success_score = self._calculate_extraction_success(structured_data)
+            
+            total_time = time.time() - start_total
+            
+            logger.info(f"⚡ ULTRA RÁPIDO - Total: {total_time:.3f}s (OCR: {ocr_time:.3f}s)")
+            logger.info(f"📊 Score: {success_score:.1%} | Campos: {list(structured_data.keys())}")
+            
+            return {
+                'arquivo_origem': Path(image_path).name,
+                'banco_identificado': bank,
+                'texto_extraido': {
+                    'tesseract': text,
+                    'caracteres_extraidos': len(text)
+                },
+                'dados_estruturados': structured_data,
+                'score_extracao': success_score,
+                'status': 'success' if success_score > 0.3 else 'partial',
+                'timestamp': str(datetime.now()),
+                'processing_info': {
+                    'total_time_seconds': round(total_time, 3),
+                    'ocr_time': round(ocr_time, 3),
+                    'bank_identification_time': round(bank_time, 3),
+                    'extraction_time': round(extract_time, 3),
+                    'optimization_level': 'ultra_fast'
+                }
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ Erro no processamento ultra-rápido: {e}")
+            return {
+                'arquivo_origem': Path(image_path).name,
+                'status': 'error',
+                'erro': str(e),
+                'timestamp': str(datetime.now())
+            }
+
+    def identify_bank_fast(self, text: str) -> str:
+        """Identificação de banco RÁPIDA - Apenas padrões essenciais"""
+        text_lower = text.lower()
+        
+        # Padrões principais apenas (ordem de prioridade)
+        priority_banks = [
+            ('nubank', ['nubank', 'nu pagamentos']),
+            ('inter', ['inter', 'banco inter']),
+            ('itau', ['itau', 'unibanco']),
+            ('btg', ['btg', 'pactual']),
+            ('bb', ['brasil', 'banco do brasil']),
+            ('caixa', ['caixa']),
+            ('will', ['will']),
+            ('picpay', ['picpay'])
+        ]
+        
+        for bank, patterns in priority_banks:
+            for pattern in patterns:
+                if pattern in text_lower:
+                    logger.info(f"Banco identificado rápido: {bank}")
+                    return bank
+        
+        return 'unknown'
