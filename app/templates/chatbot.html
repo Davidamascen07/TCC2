@@ -291,7 +291,9 @@
                 this.charCount = document.getElementById('char-count');
                 this.clearBtn = document.getElementById('clear-chat');
                 
-                this.extractedData = null;
+                // REAL DATA - Dados reais extraídos da API
+                this.extractedDataHistory = []; // Histórico de comprovantes processados
+                this.currentFile = null;
                 this.conversationHistory = [];
                 
                 this.init();
@@ -432,21 +434,42 @@
                 this.showTyping();
                 
                 // Simulate processing delay
-                await this.delay(1500);
+                await this.delay(800);
                 
                 let response = '';
                 
-                // Simple intent recognition
-                if (this.isGreeting(message)) {
-                    response = this.getGreetingResponse();
-                } else if (this.isQuestion(message)) {
-                    response = this.getQuestionResponse(message);
-                } else if (this.isValueQuery(message)) {
-                    response = this.getValueResponse();
-                } else if (this.isReportRequest(message)) {
-                    response = this.getReportResponse();
-                } else {
-                    response = this.getDefaultResponse(message);
+                // INTENT RECOGNITION MELHORADO
+                try {
+                    if (this.isGreeting(message)) {
+                        response = this.getGreetingResponse();
+                    } else if (this.isValueQuery(message)) {
+                        response = this.getRealValueResponse();
+                    } else if (this.isDateQuery(message)) {
+                        response = this.getDateResponse();
+                    } else if (this.isRecipientQuery(message)) {
+                        response = this.getRecipientResponse();
+                    } else if (this.isSenderQuery(message)) {
+                        response = this.getSenderResponse();
+                    } else if (this.isBankQuery(message)) {
+                        response = this.getBankResponse();
+                    } else if (this.isCPFQuery(message)) {
+                        response = this.getCPFResponse();
+                    } else if (this.isTransactionIDQuery(message)) {
+                        response = this.getTransactionIDResponse();
+                    } else if (this.isReportRequest(message)) {
+                        response = this.getRealReportResponse();
+                    } else if (this.isComparisonRequest(message)) {
+                        response = this.getComparisonResponse();
+                    } else if (this.isStatsRequest(message)) {
+                        response = this.getStatsResponse();
+                    } else if (this.isQuestion(message)) {
+                        response = this.getRealQuestionResponse(message);
+                    } else {
+                        response = this.getDefaultResponse(message);
+                    }
+                } catch (error) {
+                    console.error('Erro no processamento da mensagem:', error);
+                    response = '❌ Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente.';
                 }
                 
                 this.hideTyping();
@@ -455,45 +478,416 @@
             
             async processFile(file) {
                 this.showTyping();
+                this.currentFile = file;
                 
-                // Simulate file processing
-                await this.delay(2500);
-                
-                // Mock extracted data
-                this.extractedData = {
-                    valor: 'R$ 1.247,90',
-                    destinatario: 'Maria Fernanda Oliveira Santos',
-                    cpf: '123.456.789-00',
-                    remetente: 'Carlos Roberto Silva',
-                    data: '15/07/2023 14:23',
-                    transacao: 'PIX9H832FJ73G',
-                    banco_origem: 'Nu Pagamentos S.A.',
-                    banco_destino: 'Banco do Brasil'
-                };
-                
-                const response = this.getExtractionResponse();
-                
-                this.hideTyping();
-                this.addMessage('bot', response);
+                try {
+                    // REAL API CALL - Chamada real para a API
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    
+                    // Fazer chamada real para a API
+                    const response = await fetch('/api/extract', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+                    
+                    if (result.status === 'success' || result.status === 'partial') {
+                        // DADOS REAIS extraídos
+                        const dadosReais = result.dados_estruturados || {};
+                        const nomes = result.nomes || {};
+                        const textoExtraido = result.texto_extraido || {};
+                        
+                        // Estruturar dados reais para o chatbot
+                        const novoComprovante = {
+                            id: Date.now(),
+                            arquivo: file.name,
+                            banco: result.banco_identificado || 'Não identificado',
+                            valor: dadosReais.valor || 'Não extraído',
+                            data: dadosReais.data || 'Não extraído',
+                            destinatario: dadosReais.destinatario || nomes.destinatario || 'Não extraído',
+                            remetente: dadosReais.remetente || nomes.remetente || 'Não extraído',
+                            cpfs: dadosReais.cpfs || [],
+                            id_transacao: dadosReais.id_transacao || 'Não extraído',
+                            score: result.score_extracao || 0,
+                            texto_completo: textoExtraido.tesseract || '',
+                            timestamp: new Date(),
+                            processing_info: result.processing_info || {}
+                        };
+                        
+                        this.extractedDataHistory.push(novoComprovante);
+                        
+                        const response = this.getRealExtractionResponse(novoComprovante);
+                        
+                        this.hideTyping();
+                        this.addMessage('bot', response);
+                        
+                    } else {
+                        throw new Error(result.erro || 'Erro na extração');
+                    }
+                    
+                } catch (error) {
+                    console.error('Erro na extração:', error);
+                    this.hideTyping();
+                    
+                    let errorMessage = '';
+                    if (error.message.includes('500')) {
+                        errorMessage = '❌ <strong>Erro interno do servidor</strong><br><br>Tente novamente em alguns segundos. O sistema pode estar processando muitos arquivos.';
+                    } else if (error.message.includes('400')) {
+                        errorMessage = '❌ <strong>Arquivo não suportado</strong><br><br>Por favor, envie apenas imagens (JPG, PNG) ou PDFs de comprovantes PIX válidos.';
+                    } else {
+                        errorMessage = `❌ <strong>Erro no processamento</strong><br><br>${error.message}<br><br>💡 <strong>Dicas:</strong><br>• Verifique se é um comprovante PIX<br>• Certifique-se que a imagem está legível<br>• Tente redimensionar o arquivo`;
+                    }
+                    
+                    this.addMessage('bot', errorMessage);
+                }
             }
             
-            // Response generators
-            getExtractionResponse() {
+            // Response generators com DADOS REAIS
+            getRealExtractionResponse(dadosReais) {
+                const scoreColor = dadosReais.score > 0.7 ? 'text-green-400' : dadosReais.score > 0.4 ? 'text-yellow-400' : 'text-red-400';
+                const processingTime = dadosReais.processing_info.total_request_time_seconds || 'N/A';
+                
                 return `✅ <strong>Comprovante processado com sucesso!</strong>
                 
-                <div class="extracted-data mt-4 p-4 rounded-lg">
-                    <h4 class="font-semibold mb-3 text-blue-300">📊 Dados Extraídos:</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                        <div><strong>💰 Valor:</strong> ${this.extractedData.valor}</div>
-                        <div><strong>📅 Data:</strong> ${this.extractedData.data}</div>
-                        <div><strong>👤 Destinatário:</strong> ${this.extractedData.destinatario}</div>
-                        <div><strong>📄 CPF:</strong> ${this.extractedData.cpf}</div>
-                        <div><strong>🏦 Remetente:</strong> ${this.extractedData.remetente}</div>
-                        <div><strong>🔢 Transação:</strong> ${this.extractedData.transacao}</div>
+                <div class="bg-gray-800 p-3 rounded-lg mt-3 mb-4">
+                    <div class="flex justify-between items-center text-sm">
+                        <span>📁 <strong>${dadosReais.arquivo}</strong></span>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-blue-400">⚡ ${processingTime}s</span>
+                            <span class="${scoreColor}">📊 ${(dadosReais.score * 100).toFixed(1)}%</span>
+                        </div>
                     </div>
                 </div>
                 
-                Agora você pode me fazer perguntas sobre este comprovante! 🤔`;
+                <div class="extracted-data mt-4 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-3 text-blue-300">📊 Dados Extraídos (REAIS):</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div><strong>🏦 Banco:</strong> <span class="text-yellow-400">${dadosReais.banco}</span></div>
+                        <div><strong>💰 Valor:</strong> <span class="text-green-400">${dadosReais.valor}</span></div>
+                        <div><strong>📅 Data:</strong> ${dadosReais.data}</div>
+                        <div><strong>👤 Destinatário:</strong> ${dadosReais.destinatario}</div>
+                        <div><strong>🏦 Remetente:</strong> ${dadosReais.remetente}</div>
+                        ${dadosReais.cpfs.length > 0 ? `<div><strong>📄 CPFs:</strong> ${dadosReais.cpfs.join(', ')}</div>` : ''}
+                        ${dadosReais.id_transacao !== 'Não extraído' ? `<div class="md:col-span-2"><strong>🔢 ID:</strong> <code class="text-xs">${dadosReais.id_transacao}</code></div>` : ''}
+                    </div>
+                </div>
+                
+                <div class="mt-4 p-3 bg-green-900/20 border border-green-500/30 rounded-lg">
+                    <div class="text-sm text-green-300">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <strong>Processamento concluído!</strong> Agora você pode fazer perguntas sobre este comprovante.
+                    </div>
+                </div>
+                
+                <div class="mt-3 text-sm text-gray-400">
+                    💡 <strong>Experimente perguntar:</strong><br>
+                    • "Qual foi o valor desta transação?"<br>
+                    • "Quem é o destinatário?"<br>
+                    • "Qual banco foi usado?"<br>
+                    • "Gere um relatório completo"
+                </div>`;
+            }
+            
+            getRealQuestionResponse(message) {
+                if (this.extractedDataHistory.length === 0) {
+                    return '🤔 Para responder suas perguntas, preciso primeiro analisar um comprovante. Envie um arquivo PIX!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                const lowerMessage = message.toLowerCase();
+                
+                // Detectar tipo específico de pergunta
+                if (this.isValueQuery(message)) {
+                    return this.getRealValueResponse();
+                } else if (this.isDateQuery(message)) {
+                    return this.getDateResponse();
+                } else if (this.isRecipientQuery(message)) {
+                    return this.getRecipientResponse();
+                } else if (this.isSenderQuery(message)) {
+                    return this.getSenderResponse();
+                } else if (this.isBankQuery(message)) {
+                    return this.getBankResponse();
+                } else if (this.isCPFQuery(message)) {
+                    return this.getCPFResponse();
+                } else if (this.isTransactionIDQuery(message)) {
+                    return this.getTransactionIDResponse();
+                }
+                
+                // Resposta genérica se não detectar tipo específico
+                return `🤖 <strong>Sobre o último comprovante:</strong><br>
+                💰 Valor: ${ultimoComprovante.valor}<br>
+                👤 Destinatário: ${ultimoComprovante.destinatario}<br>
+                🏦 Banco: ${ultimoComprovante.banco}<br>
+                📅 Data: ${ultimoComprovante.data}<br><br>
+                <strong>Seja mais específico:</strong> "Qual o valor?", "Quem é o destinatário?", etc.`;
+            }
+            
+            getRealValueResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '💰 Envie um comprovante primeiro para eu analisar os valores!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                
+                // Calcular estatísticas se houver múltiplos comprovantes
+                if (this.extractedDataHistory.length > 1) {
+                    const valores = this.extractedDataHistory
+                        .map(c => c.valor)
+                        .filter(v => v !== 'Não extraído')
+                        .map(v => this.extractValueNumber(v))
+                        .filter(v => !isNaN(v));
+                    
+                    if (valores.length > 0) {
+                        const total = valores.reduce((a, b) => a + b, 0);
+                        const media = total / valores.length;
+                        
+                        return `💰 <strong>Análise de Valores:</strong>
+                        
+                        <div class="bg-gray-800 p-4 rounded-lg mt-3">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div><strong>💰 Último valor:</strong> ${ultimoComprovante.valor}</div>
+                                <div><strong>📊 Total processado:</strong> R$ ${total.toFixed(2)}</div>
+                                <div><strong>📈 Valor médio:</strong> R$ ${media.toFixed(2)}</div>
+                                <div><strong>📄 Comprovantes:</strong> ${this.extractedDataHistory.length}</div>
+                            </div>
+                        </div>`;
+                    }
+                }
+                
+                return `💰 O valor da última transação analisada é <strong>${ultimoComprovante.valor}</strong>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    📁 Arquivo: ${ultimoComprovante.arquivo}<br>
+                    🏦 Banco: ${ultimoComprovante.banco}
+                </div>`;
+            }
+            
+            getDateResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '📅 Envie um comprovante primeiro para analisar a data!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                return `📅 A transação foi realizada em <strong>${ultimoComprovante.data}</strong>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    ⏰ Processado em: ${ultimoComprovante.timestamp.toLocaleString()}<br>
+                    📁 Arquivo: ${ultimoComprovante.arquivo}
+                </div>`;
+            }
+            
+            getRecipientResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '👤 Envie um comprovante primeiro para identificar o destinatário!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                return `👤 O destinatário da transação é <strong>${ultimoComprovante.destinatario}</strong>
+                
+                ${ultimoComprovante.cpfs.length > 0 ? `<div class="mt-2 text-sm text-gray-400">📄 CPF: ${ultimoComprovante.cpfs[0]}</div>` : ''}
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    💰 Valor: ${ultimoComprovante.valor}<br>
+                    🏦 Banco: ${ultimoComprovante.banco}
+                </div>`;
+            }
+            
+            getSenderResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '🏦 Envie um comprovante primeiro para identificar o remetente!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                return `🏦 O remetente da transação é <strong>${ultimoComprovante.remetente}</strong>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    👤 Para: ${ultimoComprovante.destinatario}<br>
+                    💰 Valor: ${ultimoComprovante.valor}
+                </div>`;
+            }
+            
+            getBankResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '🏦 Envie um comprovante primeiro para identificar o banco!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                return `🏦 O banco identificado foi <strong>${ultimoComprovante.banco}</strong>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    📊 Confiança: ${(ultimoComprovante.score * 100).toFixed(1)}%<br>
+                    ⚡ Tempo de processamento: ${ultimoComprovante.processing_info.total_request_time_seconds || 'N/A'}s<br>
+                    💰 Valor: ${ultimoComprovante.valor}
+                </div>`;
+            }
+            
+            getCPFResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '📱 Envie um comprovante primeiro para extrair CPFs!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                
+                if (ultimoComprovante.cpfs.length === 0) {
+                    return `📱 Nenhum CPF foi extraído do último comprovante.
+                    
+                    <div class="mt-2 text-sm text-gray-400">
+                        Isso pode acontecer se o comprovante não contém CPFs visíveis ou se a qualidade da imagem está baixa.
+                    </div>`;
+                }
+                
+                return `📱 <strong>CPFs/CNPJs encontrados:</strong>
+                
+                <div class="bg-gray-800 p-3 rounded-lg mt-2">
+                    ${ultimoComprovante.cpfs.map(cpf => `<div class="font-mono text-sm">${cpf}</div>`).join('')}
+                </div>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    👤 Destinatário: ${ultimoComprovante.destinatario}
+                </div>`;
+            }
+            
+            getTransactionIDResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '🔢 Envie um comprovante primeiro para extrair o ID da transação!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                
+                if (ultimoComprovante.id_transacao === 'Não extraído') {
+                    return `🔢 O ID da transação não foi extraído do último comprovante.
+                    
+                    <div class="mt-2 text-sm text-gray-400">
+                        Isso pode acontecer se o ID não está visível ou legível na imagem.
+                    </div>`;
+                }
+                
+                return `🔢 <strong>ID da transação:</strong>
+                
+                <div class="bg-gray-800 p-3 rounded-lg mt-2 font-mono text-sm">
+                    ${ultimoComprovante.id_transacao}
+                </div>
+                
+                <div class="mt-2 text-sm text-gray-400">
+                    💰 Valor: ${ultimoComprovante.valor}<br>
+                    📅 Data: ${ultimoComprovante.data}
+                </div>`;
+            }
+            
+            getRealReportResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '📊 Preciso de pelo menos um comprovante para gerar um relatório!';
+                }
+                
+                const ultimoComprovante = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                const agora = new Date();
+                
+                return `📊 <strong>Relatório PIX Detalhado</strong>
+                
+                <div class="bg-gray-800 p-4 rounded-lg mt-3 font-mono text-sm">
+                    ═══════════════════════════════════════════════<br>
+                    📄 <strong>RELATÓRIO OFICIAL - PIXText.ai</strong><br>
+                    ═══════════════════════════════════════════════<br>
+                    📅 Gerado em: ${agora.toLocaleString()}<br>
+                    📁 Arquivo: ${ultimoComprovante.arquivo}<br>
+                    ───────────────────────────────────────────────<br>
+                    🏦 Banco: ${ultimoComprovante.banco}<br>
+                    💰 Valor: ${ultimoComprovante.valor}<br>
+                    📅 Data Transação: ${ultimoComprovante.data}<br>
+                    👤 De: ${ultimoComprovante.remetente}<br>
+                    👤 Para: ${ultimoComprovante.destinatario}<br>
+                    ${ultimoComprovante.cpfs.length > 0 ? `📄 CPF: ${ultimoComprovante.cpfs[0]}<br>` : ''}
+                    🔢 ID: ${ultimoComprovante.id_transacao}<br>
+                    ───────────────────────────────────────────────<br>
+                    📊 Score Extração: ${(ultimoComprovante.score * 100).toFixed(1)}%<br>
+                    ⚡ Tempo Processamento: ${ultimoComprovante.processing_info.total_request_time_seconds || 'N/A'}s<br>
+                    🤖 Tecnologia: OCR + ML + YOLO<br>
+                    ═══════════════════════════════════════════════
+                </div>
+                
+                <div class="mt-3 text-xs text-gray-500">
+                    💾 Dados extraídos automaticamente via Inteligência Artificial
+                </div>`;
+            }
+            
+            getComparisonResponse() {
+                if (this.extractedDataHistory.length < 2) {
+                    return '📊 Preciso de pelo menos 2 comprovantes para fazer comparações. Envie mais arquivos!';
+                }
+                
+                const ultimo = this.extractedDataHistory[this.extractedDataHistory.length - 1];
+                const penultimo = this.extractedDataHistory[this.extractedDataHistory.length - 2];
+                
+                return `📊 <strong>Comparação entre Últimas Transações:</strong>
+                
+                <div class="bg-gray-800 p-4 rounded-lg mt-3">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <strong class="text-blue-300">📄 Comprovante Atual:</strong><br>
+                            💰 ${ultimo.valor}<br>
+                            🏦 ${ultimo.banco}<br>
+                            📅 ${ultimo.data}<br>
+                            👤 ${ultimo.destinatario}
+                        </div>
+                        <div>
+                            <strong class="text-yellow-300">📄 Comprovante Anterior:</strong><br>
+                            💰 ${penultimo.valor}<br>
+                            🏦 ${penultimo.banco}<br>
+                            📅 ${penultimo.data}<br>
+                            👤 ${penultimo.destinatario}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3 text-sm text-gray-400">
+                    📈 Total de comprovantes processados: <strong>${this.extractedDataHistory.length}</strong>
+                </div>`;
+            }
+            
+            getStatsResponse() {
+                if (this.extractedDataHistory.length === 0) {
+                    return '📈 Envie comprovantes para eu gerar estatísticas!';
+                }
+                
+                const bancos = {};
+                const valores = [];
+                
+                this.extractedDataHistory.forEach(comprovante => {
+                    // Contar bancos
+                    bancos[comprovante.banco] = (bancos[comprovante.banco] || 0) + 1;
+                    
+                    // Coletar valores
+                    const valor = this.extractValueNumber(comprovante.valor);
+                    if (!isNaN(valor)) valores.push(valor);
+                });
+                
+                const bancoMaisFrequente = Object.keys(bancos).reduce((a, b) => bancos[a] > bancos[b] ? a : b);
+                const totalValor = valores.reduce((a, b) => a + b, 0);
+                const mediaValor = valores.length > 0 ? totalValor / valores.length : 0;
+                
+                return `📈 <strong>Estatísticas dos Comprovantes:</strong>
+                
+                <div class="bg-gray-800 p-4 rounded-lg mt-3">
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div><strong>📄 Total processados:</strong> ${this.extractedDataHistory.length}</div>
+                        <div><strong>🏦 Banco mais usado:</strong> ${bancoMaisFrequente}</div>
+                        <div><strong>💰 Valor total:</strong> R$ ${totalValor.toFixed(2)}</div>
+                        <div><strong>📊 Valor médio:</strong> R$ ${mediaValor.toFixed(2)}</div>
+                    </div>
+                    
+                    <div class="mt-3 pt-3 border-t border-gray-700">
+                        <strong class="text-blue-300">🏦 Distribuição por Bancos:</strong><br>
+                        ${Object.entries(bancos).map(([banco, count]) => 
+                            `<span class="inline-block bg-gray-700 px-2 py-1 rounded text-xs mr-2 mt-1">${banco}: ${count}</span>`
+                        ).join('')}
+                    </div>
+                </div>`;
             }
             
             getGreetingResponse() {
@@ -505,60 +899,6 @@
                 return greetings[Math.floor(Math.random() * greetings.length)];
             }
             
-            getQuestionResponse(message) {
-                if (!this.extractedData) {
-                    return '🤔 Para responder suas perguntas, preciso primeiro analisar um comprovante. Envie um arquivo PIX!';
-                }
-                
-                const lowerMessage = message.toLowerCase();
-                
-                if (lowerMessage.includes('valor')) {
-                    return `💰 O valor da transação é <strong>${this.extractedData.valor}</strong>`;
-                }
-                if (lowerMessage.includes('destinat') || lowerMessage.includes('receb')) {
-                    return `👤 O destinatário é <strong>${this.extractedData.destinatario}</strong> (CPF: ${this.extractedData.cpf})`;
-                }
-                if (lowerMessage.includes('data') || lowerMessage.includes('quando')) {
-                    return `📅 A transação foi realizada em <strong>${this.extractedData.data}</strong>`;
-                }
-                if (lowerMessage.includes('cpf')) {
-                    return `📄 O CPF do destinatário é <strong>${this.extractedData.cpf}</strong>`;
-                }
-                if (lowerMessage.includes('remetente') || lowerMessage.includes('pagador')) {
-                    return `🏦 O remetente é <strong>${this.extractedData.remetente}</strong>`;
-                }
-                
-                return '🤖 Posso responder sobre: valor, destinatário, data, CPF, remetente. Reformule sua pergunta!';
-            }
-            
-            getValueResponse() {
-                if (!this.extractedData) {
-                    return '💰 Envie um comprovante primeiro para eu analisar os valores!';
-                }
-                return `💰 O valor total da transação analisada é <strong>${this.extractedData.valor}</strong>`;
-            }
-            
-            getReportResponse() {
-                if (!this.extractedData) {
-                    return '📊 Preciso de pelo menos um comprovante para gerar um relatório!';
-                }
-                
-                return `📊 <strong>Relatório da Transação PIX</strong>
-                
-                <div class="bg-gray-800 p-4 rounded-lg mt-3 font-mono text-sm">
-                    =================================<br>
-                    📄 RELATÓRIO PIX - ${new Date().toLocaleDateString()}<br>
-                    =================================<br>
-                    💰 Valor: ${this.extractedData.valor}<br>
-                    📅 Data: ${this.extractedData.data}<br>
-                    👤 De: ${this.extractedData.remetente}<br>
-                    👤 Para: ${this.extractedData.destinatario}<br>
-                    📄 CPF: ${this.extractedData.cpf}<br>
-                    🔢 ID: ${this.extractedData.transacao}<br>
-                    =================================
-                </div>`;
-            }
-            
             getDefaultResponse(message) {
                 const responses = [
                     '🤖 Interessante! Mas foque em perguntas sobre comprovantes PIX. Como posso ajudar?',
@@ -568,25 +908,73 @@
                 return responses[Math.floor(Math.random() * responses.length)];
             }
             
-            // Utility functions
+            // UTILITY FUNCTIONS PARA DETECÇÃO DE INTENTS
             isGreeting(message) {
-                const greetingWords = ['oi', 'olá', 'hello', 'bom dia', 'boa tarde', 'boa noite'];
+                const greetingWords = ['oi', 'olá', 'hello', 'ola', 'bom dia', 'boa tarde', 'boa noite', 'e ai', 'eae'];
                 return greetingWords.some(word => message.toLowerCase().includes(word));
             }
             
             isQuestion(message) {
-                const questionWords = ['qual', 'como', 'quando', 'onde', 'quem', 'quanto', '?'];
-                return questionWords.some(word => message.toLowerCase().includes(word));
+                return message.includes('?') || 
+                       ['o que', 'qual', 'como', 'quando', 'onde', 'quem', 'quanto', 'por que', 'porque'].some(word => 
+                           message.toLowerCase().includes(word));
             }
             
             isValueQuery(message) {
-                const valueWords = ['valor', 'preço', 'quanto', 'dinheiro', 'total'];
+                const valueWords = ['valor', 'preço', 'preco', 'quanto', 'dinheiro', 'total', 'quantia', 'grana'];
                 return valueWords.some(word => message.toLowerCase().includes(word));
             }
             
+            isDateQuery(message) {
+                const dateWords = ['data', 'quando', 'dia', 'horario', 'horário', 'tempo', 'momento'];
+                return dateWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isRecipientQuery(message) {
+                const recipientWords = ['destinatario', 'destinatário', 'recebeu', 'para quem', 'quem recebeu', 'beneficiario', 'beneficiário'];
+                return recipientWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isSenderQuery(message) {
+                const senderWords = ['remetente', 'enviou', 'de quem', 'quem enviou', 'pagador', 'origem'];
+                return senderWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isBankQuery(message) {
+                const bankWords = ['banco', 'instituição', 'instituicao', 'financeira'];
+                return bankWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isCPFQuery(message) {
+                const cpfWords = ['cpf', 'cnpj', 'documento', 'identificacao', 'identificação'];
+                return cpfWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isTransactionIDQuery(message) {
+                const idWords = ['id', 'codigo', 'código', 'transacao', 'transação', 'identificador'];
+                return idWords.some(word => message.toLowerCase().includes(word));
+            }
+            
             isReportRequest(message) {
-                const reportWords = ['relatório', 'relatorio', 'resumo', 'report'];
+                const reportWords = ['relatório', 'relatorio', 'resumo', 'report', 'detalhado'];
                 return reportWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isComparisonRequest(message) {
+                const comparisonWords = ['comparar', 'compare', 'diferença', 'diferenca', 'anterior', 'último', 'ultimo'];
+                return comparisonWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isStatsRequest(message) {
+                const statsWords = ['estatísticas', 'estatisticas', 'resumo', 'total', 'média', 'media', 'stats'];
+                return statsWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            // Utility functions
+            extractValueNumber(valorStr) {
+                if (valorStr === 'Não extraído') return NaN;
+                const numbers = valorStr.replace(/[^\d,]/g, '').replace(',', '.');
+                return parseFloat(numbers);
             }
             
             addMessage(sender, content, file = null) {
@@ -643,7 +1031,7 @@
             }
             
             clearChat() {
-                if (confirm('Deseja limpar toda a conversa?')) {
+                if (confirm('Deseja limpar toda a conversa e dados extraídos?')) {
                     this.messagesContainer.innerHTML = `
                         <div class="message-bot rounded-2xl p-4 max-w-md animate-fade-in">
                             <div class="flex items-start">
@@ -652,12 +1040,27 @@
                                 </div>
                                 <div class="ml-3">
                                     <div class="text-sm text-gray-400 mb-1">Assistente PIX</div>
-                                    <div class="text-gray-100">🔄 Conversa limpa! Como posso ajudar?</div>
+                                    <div class="text-gray-100">
+                                        👋 Olá! Sou seu assistente especializado em comprovantes PIX. 
+                                        <br><br>
+                                        Posso ajudar você a:
+                                        <ul class="mt-2 space-y-1 text-sm">
+                                            <li>📄 Extrair dados de comprovantes</li>
+                                            <li>💰 Analisar valores e destinatários</li>
+                                            <li>🔍 Responder perguntas sobre transações</li>
+                                            <li>📊 Gerar relatórios estruturados</li>
+                                        </ul>
+                                        <br>
+                                        <strong>Envie um comprovante ou faça uma pergunta!</strong>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     `;
-                    this.extractedData = null;
+                    
+                    // Limpar dados reais
+                    this.extractedDataHistory = [];
+                    this.currentFile = null;
                     this.conversationHistory = [];
                 }
             }

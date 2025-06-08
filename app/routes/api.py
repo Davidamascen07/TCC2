@@ -149,6 +149,120 @@ def extract_data():
             except Exception as cleanup_error:
                 logger.error(f"❌ Erro na limpeza final: {cleanup_error}")
 
+@api_bp.route('/chatbot/extract', methods=['POST'])
+def chatbot_extract():
+    """API endpoint específica para chatbot - retorna dados formatados"""
+    start_request = time.time()
+    temp_file_path = None
+    
+    try:
+        # Verificar se arquivo foi enviado
+        if 'file' not in request.files:
+            return jsonify({
+                'status': 'error',
+                'erro': 'Nenhum arquivo foi enviado'
+            }), 400
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            return jsonify({
+                'status': 'error',
+                'erro': 'Nenhum arquivo selecionado'
+            }), 400
+        
+        if not allowed_file(file.filename):
+            return jsonify({
+                'status': 'error',
+                'erro': 'Tipo de arquivo não suportado. Use: JPG, PNG, PDF, etc.'
+            }), 400
+        
+        # Processar arquivo (mesmo código do /extract)
+        try:
+            temp_file = tempfile.NamedTemporaryFile(
+                delete=False, 
+                suffix=os.path.splitext(secure_filename(file.filename))[1].lower(),
+                dir=tempfile.gettempdir()
+            )
+            temp_file_path = temp_file.name
+            temp_file.close()
+            
+            file.save(temp_file_path)
+            logger.info(f"🤖 CHATBOT - Arquivo salvo: {temp_file_path}")
+            
+        except Exception as e:
+            logger.error(f"❌ Erro ao salvar arquivo para chatbot: {e}")
+            return jsonify({
+                'status': 'error',
+                'erro': f'Erro ao processar arquivo: {str(e)}'
+            }), 500
+        
+        # Processar com extrator
+        try:
+            from src.ocr.extractor import ComprovantePIXExtractor
+            
+            extractor = ComprovantePIXExtractor()
+            result = extractor.process_comprovante_ultra_fast(temp_file_path)
+            
+            # Adicionar informações específicas para chatbot
+            total_request_time = time.time() - start_request
+            result['processing_info']['total_request_time_seconds'] = round(total_request_time, 3)
+            result['processing_info']['chatbot_mode'] = True
+            result['processing_info']['file_size_mb'] = round(os.path.getsize(temp_file_path) / (1024 * 1024), 2)
+            
+            # Melhorar dados para chatbot
+            if result['status'] in ['success', 'partial']:
+                # Garantir que temos dados mínimos
+                dados = result.get('dados_estruturados', {})
+                nomes = result.get('nomes', {})
+                
+                # Formatar dados para chatbot
+                result['chatbot_summary'] = {
+                    'arquivo': file.filename,
+                    'banco': result.get('banco_identificado', 'Não identificado'),
+                    'valor': dados.get('valor', 'Não extraído'),
+                    'data': dados.get('data', 'Não extraído'),
+                    'destinatario': dados.get('destinatario') or nomes.get('destinatario', 'Não extraído'),
+                    'remetente': dados.get('remetente') or nomes.get('remetente', 'Não extraído'),
+                    'cpfs': dados.get('cpfs', []),
+                    'id_transacao': dados.get('id_transacao', 'Não extraído'),
+                    'score': result.get('score_extracao', 0),
+                    'processing_time': round(total_request_time, 2)
+                }
+            
+            logger.info(f"🤖 CHATBOT - Extração concluída: {file.filename}")
+            logger.info(f"📊 Score: {result.get('score_extracao', 0) * 100:.1f}%")
+            logger.info(f"⚡ Tempo: {total_request_time:.3f}s")
+            
+            return jsonify(result), 200
+            
+        except Exception as e:
+            logger.error(f"❌ Erro no processamento para chatbot: {e}")
+            return jsonify({
+                'status': 'error',
+                'erro': f'Erro durante o processamento: {str(e)}',
+                'timestamp': str(datetime.now())
+            }), 500
+            
+    except Exception as e:
+        logger.error(f"❌ Erro geral na API do chatbot: {e}")
+        return jsonify({
+            'status': 'error',
+            'erro': f'Erro interno do servidor: {str(e)}',
+            'timestamp': str(datetime.now())
+        }), 500
+        
+    finally:
+        # Limpeza de arquivos
+        if temp_file_path and os.path.exists(temp_file_path):
+            try:
+                gc.collect()
+                time.sleep(0.1)
+                if not safe_delete_file(temp_file_path):
+                    logger.warning(f"⚠️ Arquivo do chatbot será limpo posteriormente: {temp_file_path}")
+            except Exception as cleanup_error:
+                logger.error(f"❌ Erro na limpeza do chatbot: {cleanup_error}")
+
 @api_bp.route('/status', methods=['GET'])
 def api_status():
     """Endpoint para verificar status da API"""
