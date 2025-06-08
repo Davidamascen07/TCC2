@@ -1,0 +1,43 @@
+{
+  "classes": [
+    "outros_bancos",
+    "nubank",
+    "caixa"
+  ],
+  "total_samples": 104,
+  "class_distribution": {
+    "nubank": 96,
+    "caixa": 5,
+    "outros_bancos": 3
+  },
+  "min_samples_per_class": 3,
+  "training_timestamp": "2025-06-08T12:19:04.294080",
+  "validation_scores": [
+    1.0,
+    0.9714285714285714,
+    1.0
+  ],
+  "cv_mean_accuracy": 0.9904761904761905,
+  "cv_std_accuracy": 0.01346870059402948,
+  "test_accuracy": 1.0,
+  "model_params": {
+    "bootstrap": true,
+    "ccp_alpha": 0.0,
+    "class_weight": "balanced",
+    "criterion": "gini",
+    "max_depth": 10,
+    "max_features": "sqrt",
+    "max_leaf_nodes": null,
+    "max_samples": null,
+    "min_impurity_decrease": 0.0,
+    "min_samples_leaf": 2,
+    "min_samples_split": 5,
+    "min_weight_fraction_leaf": 0.0,
+    "n_estimators": 50,
+    "n_jobs": null,
+    "oob_score": false,
+    "random_state": 42,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "overfitting_warning": 

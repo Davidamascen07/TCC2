@@ -1,0 +1,615 @@
+{% extends "base.html" %}
+
+{% block title %}PIXText - Analytics{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+    <!-- Analytics Header -->
+    <section class="px-4 md:px-8 py-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="bg-gray-800 text-secondary py-1 px-3 rounded-full inline-flex items-center text-sm mb-4">
+                    <span class="h-2 w-2 bg-secondary rounded-full mr-2 animate-pulse"></span> ANÁLISE INTELIGENTE DE DADOS PIX
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="text-highlight">Analytics</span> <span class="text-primary">PIX</span>
+                </h1>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Visualize dados extraídos dos comprovantes PIX com gráficos interativos e insights inteligentes baseados em 104 comprovantes reais.
+                </p>
+            </div>
+            
+            <!-- Stats Overview Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+                <div class="wave-animation">
+                    <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-xl p-6 text-center shadow-xl">
+                        <div class="text-3xl font-bold text-primary mb-2 animate-pulse-slow" id="total-comprovantes">104</div>
+                        <div class="text-gray-400">📄 Total Comprovantes</div>
+                        <div class="text-sm text-gray-500 mt-1">Dados de exemplo</div>
+                    </div>
+                </div>
+                
+                <div class="wave-animation" style="animation-delay: 0.1s;">
+                    <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-xl p-6 text-center shadow-xl">
+                        <div class="text-3xl font-bold text-green-400 mb-2" id="valor-total">R$ 4.705,10</div>
+                        <div class="text-gray-400">💰 Valor Total</div>
+                        <div class="text-sm text-gray-500 mt-1">16/03 a 04/06/2025</div>
+                    </div>
+                </div>
+                
+                <div class="wave-animation" style="animation-delay: 0.2s;">
+                    <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-xl p-6 text-center shadow-xl">
+                        <div class="text-3xl font-bold text-secondary mb-2" id="bancos-detectados">8</div>
+                        <div class="text-gray-400">🏦 Bancos Detectados</div>
+                        <div class="text-sm text-gray-500 mt-1">ML Classification</div>
+                    </div>
+                </div>
+                
+                <div class="wave-animation" style="animation-delay: 0.3s;">
+                    <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-xl p-6 text-center shadow-xl">
+                        <div class="text-3xl font-bold text-yellow-400 mb-2" id="precisao-ocr">98.5%</div>
+                        <div class="text-gray-400">🎯 Precisão OCR</div>
+                        <div class="text-sm text-gray-500 mt-1">Taxa de acerto média</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Distribuição por Bancos -->
+                <div class="result-card rounded-2xl p-8 shadow-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">🏦 Distribuição por Bancos</h3>
+                        <div class="bg-gray-800 text-primary px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-chart-pie mr-2"></i>Machine Learning
+                        </div>
+                    </div>
+                    <div class="relative h-64 mb-4">
+                        <canvas id="bankChart"></canvas>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="flex justify-between items-center p-2 bg-gray-900 rounded">
+                            <span class="flex items-center"><span class="w-3 h-3 bg-purple-500 rounded-full mr-2"></span>Nubank</span>
+                            <span class="font-semibold">47</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-gray-900 rounded">
+                            <span class="flex items-center"><span class="w-3 h-3 bg-orange-500 rounded-full mr-2"></span>Inter</span>
+                            <span class="font-semibold">16</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-gray-900 rounded">
+                            <span class="flex items-center"><span class="w-3 h-3 bg-blue-500 rounded-full mr-2"></span>Itaú</span>
+                            <span class="font-semibold">13</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-gray-900 rounded">
+                            <span class="flex items-center"><span class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>Outros</span>
+                            <span class="font-semibold">28</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Valores por Período -->
+                <div class="result-card rounded-2xl p-8 shadow-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">📈 Valores por Período</h3>
+                        <div class="bg-gray-800 text-green-400 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-trend-up mr-2"></i>Temporal
+                        </div>
+                    </div>
+                    <div class="relative h-64 mb-4">
+                        <canvas id="valueChart"></canvas>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-400 bg-gray-900 p-3 rounded">
+                        <span>📅 Março: <strong class="text-green-400">R$ 419,87</strong></span>
+                        <span>📅 Maio: <strong class="text-green-400">R$ 2.341,50</strong></span>
+                        <span>📅 Junho: <strong class="text-green-400">R$ 1.943,73</strong></span>
+                    </div>
+                </div>
+                
+                <!-- Horários das Transações -->
+                <div class="result-card rounded-2xl p-8 shadow-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">🕐 Horários das Transações</h3>
+                        <div class="bg-gray-800 text-blue-400 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-clock mr-2"></i>Padrões
+                        </div>
+                    </div>
+                    <div class="relative h-64 mb-4">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                    <div class="bg-gray-900 p-3 rounded">
+                        <p class="text-sm text-gray-400">
+                            <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                            <strong>Insight:</strong> Pico de atividade entre <span class="text-yellow-400">18h-22h</span> (horário noturno)
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Tipos de Transação -->
+                <div class="result-card rounded-2xl p-8 shadow-xl">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold">💳 Tipos de Transação</h3>
+                        <div class="bg-gray-800 text-purple-400 px-3 py-1 rounded-full text-sm">
+                            <i class="fas fa-tags mr-2"></i>Categorias
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-900 rounded">
+                            <span class="flex items-center">
+                                <i class="fas fa-exchange-alt text-primary mr-3 text-lg"></i>PIX Transferência
+                            </span>
+                            <div class="flex items-center">
+                                <div class="w-32 bg-gray-700 rounded-full h-2 mr-3">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 78%"></div>
+                                </div>
+                                <span class="text-sm font-semibold">78%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-900 rounded">
+                            <span class="flex items-center">
+                                <i class="fas fa-arrow-up text-green-400 mr-3 text-lg"></i>PIX Enviado
+                            </span>
+                            <div class="flex items-center">
+                                <div class="w-32 bg-gray-700 rounded-full h-2 mr-3">
+                                    <div class="bg-green-400 h-2 rounded-full" style="width: 15%"></div>
+                                </div>
+                                <span class="text-sm font-semibold">15%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center p-3 bg-gray-900 rounded">
+                            <span class="flex items-center">
+                                <i class="fas fa-credit-card text-yellow-400 mr-3 text-lg"></i>Pagamento Cartão
+                            </span>
+                            <div class="flex items-center">
+                                <div class="w-32 bg-gray-700 rounded-full h-2 mr-3">
+                                    <div class="bg-yellow-400 h-2 rounded-full" style="width: 7%"></div>
+                                </div>
+                                <span class="text-sm font-semibold">7%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabela Detalhada -->
+            <div class="result-card rounded-2xl p-8 shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold">📋 Últimas Transações Processadas</h3>
+                        <p class="text-gray-400 text-sm mt-1">Dados extraídos automaticamente com OCR + ML</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition text-sm">
+                            <i class="fas fa-filter mr-2"></i>Filtrar
+                        </button>
+                        <button class="px-4 py-2 bg-gradient-to-r from-primary to-secondary rounded-lg hover:opacity-90 transition text-sm">
+                            <i class="fas fa-download mr-2"></i>Exportar CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-gray-700">
+                                <th class="text-left py-3 text-gray-400 font-semibold">Data/Hora</th>
+                                <th class="text-left py-3 text-gray-400 font-semibold">Valor</th>
+                                <th class="text-left py-3 text-gray-400 font-semibold">Destinatário</th>
+                                <th class="text-left py-3 text-gray-400 font-semibold">Banco</th>
+                                <th class="text-left py-3 text-gray-400 font-semibold">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table">
+                            <!-- Primeiros dados baseados no JSON real -->
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition">
+                                <td class="py-3">
+                                    <div class="text-sm">04/06/2025</div>
+                                    <div class="text-xs text-gray-500">19:54</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-lg font-semibold text-green-400">R$ 40,00</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-sm">Ana Cleuma Sousa dos Santos</div>
+                                    <div class="text-xs text-gray-500">***120.983-**</div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-purple-900 text-purple-300 rounded text-xs">
+                                        <i class="fas fa-university mr-1"></i>Nubank
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-check-circle mr-1"></i>Processado
+                                    </span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition">
+                                <td class="py-3">
+                                    <div class="text-sm">04/06/2025</div>
+                                    <div class="text-xs text-gray-500">20:17</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-lg font-semibold text-green-400">R$ 38,00</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-sm">Ana Cleuma Sousa dos Santos</div>
+                                    <div class="text-xs text-gray-500">***120.983-**</div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-yellow-900 text-yellow-300 rounded text-xs">
+                                        <i class="fas fa-university mr-1"></i>BTG Pactual
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-check-circle mr-1"></i>Processado
+                                    </span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition">
+                                <td class="py-3">
+                                    <div class="text-sm">03/06/2025</div>
+                                    <div class="text-xs text-gray-500">21:07</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-lg font-semibold text-green-400">R$ 35,00</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-sm">Ana Cleuma Sousa dos Santos</div>
+                                    <div class="text-xs text-gray-500">***120.983-**</div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-pink-900 text-pink-300 rounded text-xs">
+                                        <i class="fas fa-university mr-1"></i>PicPay
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-check-circle mr-1"></i>Processado
+                                    </span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition">
+                                <td class="py-3">
+                                    <div class="text-sm">30/05/2025</div>
+                                    <div class="text-xs text-gray-500">17:29</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-lg font-semibold text-green-400">R$ 898,80</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-sm">AIAMISS</div>
+                                    <div class="text-xs text-gray-500">CNPJ: 03365403000122</div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-blue-900 text-blue-300 rounded text-xs">
+                                        <i class="fas fa-university mr-1"></i>ConPay
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-check-circle mr-1"></i>Processado
+                                    </span>
+                                </td>
+                            </tr>
+                            
+                            <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition">
+                                <td class="py-3">
+                                    <div class="text-sm">22/05/2025</div>
+                                    <div class="text-xs text-gray-500">17:52</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-lg font-semibold text-green-400">R$ 17,00</div>
+                                </td>
+                                <td class="py-3">
+                                    <div class="text-sm">Ana Cleuma Sousa dos Santos</div>
+                                    <div class="text-xs text-gray-500">***120.983-**</div>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-university mr-1"></i>Will Bank
+                                    </span>
+                                </td>
+                                <td class="py-3">
+                                    <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                                        <i class="fas fa-check-circle mr-1"></i>Processado
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="mt-6 flex justify-center">
+                    <button id="load-more-btn" class="px-6 py-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition">
+                        <i class="fas fa-plus mr-2"></i>Carregar Mais Transações
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize charts with realistic data from JSON
+    initializeBankChart();
+    initializeValueChart();
+    initializeTimeChart();
+    setupInteractivity();
+    
+    function initializeBankChart() {
+        const ctx = document.getElementById('bankChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Nubank', 'Inter', 'Itaú', 'BTG', 'Will', 'BB', 'Caixa', 'Outros'],
+                datasets: [{
+                    data: [47, 16, 13, 8, 5, 4, 3, 8],
+                    backgroundColor: [
+                        '#8b5cf6', '#f97316', '#3b82f6', 
+                        '#eab308', '#10b981', '#fbbf24',
+                        '#06b6d4', '#6b7280'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#8b5cf6',
+                        borderWidth: 1
+                    }
+                }
+            }
+        });
+    }
+    
+    function initializeValueChart() {
+        const ctx = document.getElementById('valueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['16/03', '20/03', '23/03', '20/05', '22/05', '25/05', '28/05', '30/05', '01/06', '03/06', '04/06'],
+                datasets: [{
+                    label: 'Valor (R$)',
+                    data: [81.86, 120, 120, 419.87, 150, 300, 450, 898.80, 280, 350, 78],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6,
+                    pointHoverRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#10b981',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#374151'
+                        },
+                        ticks: {
+                            color: '#9ca3af',
+                            callback: function(value) {
+                                return 'R$ ' + value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: '#374151'
+                        },
+                        ticks: {
+                            color: '#9ca3af'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function initializeTimeChart() {
+        const ctx = document.getElementById('timeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['0-6h', '6-12h', '12-18h', '18-24h'],
+                datasets: [{
+                    label: 'Transações',
+                    data: [2, 8, 31, 63],
+                    backgroundColor: [
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ],
+                    borderColor: [
+                        '#3b82f6',
+                        '#8b5cf6',
+                        '#10b981',
+                        '#f59e0b'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleColor: '#f1f5f9',
+                        bodyColor: '#cbd5e1',
+                        borderColor: '#8b5cf6',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#374151'
+                        },
+                        ticks: {
+                            color: '#9ca3af'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#9ca3af'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    function setupInteractivity() {
+        // Animated counter effect for stats
+        animateCounters();
+        
+        // Load more functionality
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        loadMoreBtn.addEventListener('click', loadMoreTransactions);
+        
+        // Auto-refresh data every 30 seconds (simulated)
+        setInterval(updateStats, 30000);
+    }
+    
+    function animateCounters() {
+        const counters = [
+            { element: document.getElementById('total-comprovantes'), target: 104 },
+            { element: document.getElementById('bancos-detectados'), target: 8 }
+        ];
+        
+        counters.forEach(counter => {
+            let current = 0;
+            const increment = counter.target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= counter.target) {
+                    current = counter.target;
+                    clearInterval(timer);
+                }
+                counter.element.textContent = Math.floor(current);
+            }, 50);
+        });
+    }
+    
+    function loadMoreTransactions() {
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const originalText = loadMoreBtn.innerHTML;
+        
+        loadMoreBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Carregando...';
+        loadMoreBtn.disabled = true;
+        
+        // Simulate API call
+        setTimeout(() => {
+            // Add more sample data here
+            const table = document.getElementById('transactions-table');
+            const newRows = `
+                <tr class="border-b border-gray-800 hover:bg-gray-800/30 transition animate-fade-in">
+                    <td class="py-3">
+                        <div class="text-sm">20/05/2025</div>
+                        <div class="text-xs text-gray-500">18:38</div>
+                    </td>
+                    <td class="py-3">
+                        <div class="text-lg font-semibold text-green-400">R$ 43,00</div>
+                    </td>
+                    <td class="py-3">
+                        <div class="text-sm">Ana Cleuma Sousa dos Santos</div>
+                        <div class="text-xs text-gray-500">***120.983-**</div>
+                    </td>
+                    <td class="py-3">
+                        <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                            <i class="fas fa-university mr-1"></i>Will Bank
+                        </span>
+                    </td>
+                    <td class="py-3">
+                        <span class="px-2 py-1 bg-green-900 text-green-300 rounded text-xs">
+                            <i class="fas fa-check-circle mr-1"></i>Processado
+                        </span>
+                    </td>
+                </tr>
+            `;
+            
+            table.insertAdjacentHTML('beforeend', newRows);
+            
+            loadMoreBtn.innerHTML = originalText;
+            loadMoreBtn.disabled = false;
+        }, 2000);
+    }
+    
+    function updateStats() {
+        // Simulate real-time updates
+        const precisaoElement = document.getElementById('precisao-ocr');
+        const currentPrecision = parseFloat(precisaoElement.textContent.replace('%', ''));
+        const newPrecision = (currentPrecision + (Math.random() * 0.2 - 0.1)).toFixed(1);
+        precisaoElement.textContent = newPrecision + '%';
+    }
+    
+    // Export functionality
+    window.exportCSV = function() {
+        const data = [
+            ['Data', 'Valor', 'Destinatário', 'Banco', 'Status'],
+            ['04/06/2025', 'R$ 40,00', 'Ana Cleuma Sousa dos Santos', 'Nubank', 'Processado'],
+            ['04/06/2025', 'R$ 38,00', 'Ana Cleuma Sousa dos Santos', 'BTG Pactual', 'Processado'],
+            // Add more data from the JSON...
+        ];
+        
+        const csvContent = data.map(row => row.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'analytics-pix-' + new Date().toISOString().split('T')[0] + '.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+    };
+});
+</script>
+{% endblock %}

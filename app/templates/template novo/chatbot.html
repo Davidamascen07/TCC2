@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXText - Chatbot Inteligente para Comprovantes PIX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6',
+                        secondary: '#3b82f6',
+                        dark: '#0f172a',
+                        'dark-800': '#1e293b'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.3s ease-in'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .chat-container {
+            height: calc(100vh - 200px);
+            min-height: 500px;
+        }
+        
+        .chat-messages {
+            scrollbar-width: thin;
+            scrollbar-color: #8b5cf6 #1e293b;
+        }
+        
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #8b5cf6;
+            border-radius: 3px;
+        }
+        
+        .message-user {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+        }
+        
+        .message-bot {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .typing-indicator {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .file-drop-mini {
+            border: 2px dashed #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-mini:hover {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .extracted-data {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-100">
+    <!-- Header Section -->
+    <header class="py-4 px-4 md:px-8 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="bg-gradient-to-r from-primary to-secondary w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-robot text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold ml-3 tracking-tight">PIXText<span class="text-secondary">.ai</span></h1>
+                <span class="ml-3 px-2 py-1 bg-green-600 text-xs rounded-full">
+                    <i class="fas fa-circle text-xs mr-1 animate-pulse"></i>Online
+                </span>
+            </div>
+            
+            <nav class="flex space-x-1 md:space-x-6">
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Chat</a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">API</a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Ajuda</a>
+            </nav>
+            
+            <div class="mt-4 md:mt-0">
+                <button class="px-5 py-2 bg-gradient-to-r from-primary to-secondary rounded-lg font-semibold hover:opacity-90 transition-all">
+                    <i class="fas fa-crown mr-2"></i>Upgrade Pro
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chat Interface -->
+    <main class="px-4 md:px-8 py-6">
+        <div class="max-w-6xl mx-auto">
+            <!-- Chat Container -->
+            <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-2xl shadow-2xl overflow-hidden">
+                
+                <!-- Chat Header -->
+                <div class="bg-dark-800 border-b border-gray-700 p-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                                <i class="fas fa-robot text-xl"></i>
+                            </div>
+                            <div class="ml-3">
+                                <h2 class="text-lg font-semibold">Assistente PIX</h2>
+                                <p class="text-sm text-green-400">
+                                    <i class="fas fa-circle text-xs mr-1"></i>Pronto para ajudar
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2">
+                            <button id="clear-chat" class="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Messages Area -->
+                <div id="chat-messages" class="chat-messages h-96 overflow-y-auto p-6 space-y-4">
+                    <!-- Welcome Message -->
+                    <div class="message-bot rounded-2xl p-4 max-w-md animate-fade-in">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-robot text-sm"></i>
+                            </div>
+                            <div class="ml-3">
+                                <div class="text-sm text-gray-400 mb-1">Assistente PIX</div>
+                                <div class="text-gray-100">
+                                    👋 Olá! Sou seu assistente especializado em comprovantes PIX. 
+                                    <br><br>
+                                    Posso ajudar você a:
+                                    <ul class="mt-2 space-y-1 text-sm">
+                                        <li>📄 Extrair dados de comprovantes</li>
+                                        <li>💰 Analisar valores e destinatários</li>
+                                        <li>🔍 Responder perguntas sobre transações</li>
+                                        <li>📊 Gerar relatórios estruturados</li>
+                                    </ul>
+                                    <br>
+                                    <strong>Envie um comprovante ou faça uma pergunta!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Typing Indicator -->
+                <div id="typing-indicator" class="hidden px-6 pb-4">
+                    <div class="message-bot rounded-2xl p-4 max-w-md typing-indicator">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center">
+                                <i class="fas fa-robot text-sm"></i>
+                            </div>
+                            <div class="ml-3 flex space-x-1">
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Chat Input Area -->
+                <div class="bg-dark-800 border-t border-gray-700 p-4">
+                    <!-- File Upload Area (Mini) -->
+                    <div id="file-upload-area" class="mb-4 hidden">
+                        <div class="file-drop-mini rounded-lg p-4 text-center">
+                            <i class="fas fa-cloud-upload-alt text-2xl text-primary mb-2"></i>
+                            <p class="text-sm text-gray-400">Arraste um comprovante aqui ou clique para selecionar</p>
+                            <input type="file" id="file-input-chat" class="hidden" accept="image/*, .pdf">
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Input -->
+                    <div class="flex items-end space-x-3">
+                        <button id="attach-btn" class="p-3 text-gray-400 hover:text-primary hover:bg-gray-700 rounded-lg transition">
+                            <i class="fas fa-paperclip text-lg"></i>
+                        </button>
+                        
+                        <div class="flex-1 relative">
+                            <textarea 
+                                id="chat-input" 
+                                placeholder="Digite sua pergunta ou envie um comprovante PIX..."
+                                class="w-full bg-gray-700 border border-gray-600 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none min-h-[48px] max-h-32"
+                                rows="1"
+                            ></textarea>
+                            <button id="send-btn" class="absolute right-2 bottom-2 p-2 bg-gradient-to-r from-primary to-secondary rounded-lg hover:opacity-90 transition disabled:opacity-50" disabled>
+                                <i class="fas fa-paper-plane text-sm"></i>
+                            </button>
+                        </div>
+                        
+                        <button id="voice-btn" class="p-3 text-gray-400 hover:text-green-400 hover:bg-gray-700 rounded-lg transition">
+                            <i class="fas fa-microphone text-lg"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span>Pressione Enter para enviar</span>
+                            <span>Shift + Enter para nova linha</span>
+                        </div>
+                        <div id="char-count">0/500</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions/Suggestions -->
+            <div class="mt-6 flex flex-wrap gap-3 justify-center">
+                <button class="quick-action bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition">
+                    💰 "Qual o valor total das minhas transações?"
+                </button>
+                <button class="quick-action bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition">
+                    📊 "Gere um relatório dos meus PIX"
+                </button>
+                <button class="quick-action bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition">
+                    🔍 "Analise este comprovante"
+                </button>
+                <button class="quick-action bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition">
+                    ❓ "Como funciona a extração?"
+                </button>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        class PIXChatbot {
+            constructor() {
+                this.messagesContainer = document.getElementById('chat-messages');
+                this.chatInput = document.getElementById('chat-input');
+                this.sendBtn = document.getElementById('send-btn');
+                this.attachBtn = document.getElementById('attach-btn');
+                this.fileInput = document.getElementById('file-input-chat');
+                this.fileUploadArea = document.getElementById('file-upload-area');
+                this.typingIndicator = document.getElementById('typing-indicator');
+                this.charCount = document.getElementById('char-count');
+                this.clearBtn = document.getElementById('clear-chat');
+                
+                this.extractedData = null;
+                this.conversationHistory = [];
+                
+                this.init();
+            }
+            
+            init() {
+                // Event listeners
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.chatInput.addEventListener('keydown', (e) => this.handleKeyDown(e));
+                this.chatInput.addEventListener('input', () => this.handleInputChange());
+                this.attachBtn.addEventListener('click', () => this.toggleFileUpload());
+                this.fileInput.addEventListener('change', (e) => this.handleFileUpload(e));
+                this.clearBtn.addEventListener('click', () => this.clearChat());
+                
+                // Quick actions
+                document.querySelectorAll('.quick-action').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const text = e.target.textContent.replace(/[💰📊🔍❓] "(.+)"/, '$1');
+                        this.chatInput.value = text;
+                        this.handleInputChange();
+                        this.sendMessage();
+                    });
+                });
+                
+                // File drag and drop
+                this.setupFileDragDrop();
+            }
+            
+            handleKeyDown(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            }
+            
+            handleInputChange() {
+                const text = this.chatInput.value;
+                const length = text.length;
+                
+                this.charCount.textContent = `${length}/500`;
+                this.sendBtn.disabled = length === 0;
+                
+                if (length > 500) {
+                    this.charCount.classList.add('text-red-400');
+                } else {
+                    this.charCount.classList.remove('text-red-400');
+                }
+                
+                // Auto-resize textarea
+                this.chatInput.style.height = 'auto';
+                this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 128) + 'px';
+            }
+            
+            toggleFileUpload() {
+                const isHidden = this.fileUploadArea.classList.contains('hidden');
+                if (isHidden) {
+                    this.fileUploadArea.classList.remove('hidden');
+                    this.attachBtn.classList.add('text-primary');
+                } else {
+                    this.fileUploadArea.classList.add('hidden');
+                    this.attachBtn.classList.remove('text-primary');
+                }
+            }
+            
+            setupFileDragDrop() {
+                const dropArea = this.fileUploadArea.querySelector('.file-drop-mini');
+                
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropArea.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                });
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropArea.addEventListener(eventName, () => {
+                        dropArea.style.backgroundColor = 'rgba(139, 92, 246, 0.1)';
+                    });
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropArea.addEventListener(eventName, () => {
+                        dropArea.style.backgroundColor = 'transparent';
+                    });
+                });
+                
+                dropArea.addEventListener('drop', (e) => {
+                    const files = e.dataTransfer.files;
+                    this.handleFiles(files);
+                });
+                
+                dropArea.addEventListener('click', () => {
+                    this.fileInput.click();
+                });
+            }
+            
+            handleFileUpload(e) {
+                const files = e.target.files;
+                this.handleFiles(files);
+            }
+            
+            handleFiles(files) {
+                if (files.length === 0) return;
+                
+                const file = files[0];
+                if (!file.type.match(/(image\/(jpeg|png)|application\/pdf)/)) {
+                    this.addMessage('bot', '❌ Por favor, envie apenas arquivos de imagem (JPG, PNG) ou PDF.');
+                    return;
+                }
+                
+                // Add user message with file
+                this.addMessage('user', `📎 Enviou: ${file.name}`, file);
+                
+                // Hide file upload area
+                this.fileUploadArea.classList.add('hidden');
+                this.attachBtn.classList.remove('text-primary');
+                
+                // Process file
+                this.processFile(file);
+            }
+            
+            async sendMessage() {
+                const message = this.chatInput.value.trim();
+                if (!message) return;
+                
+                // Add user message
+                this.addMessage('user', message);
+                
+                // Clear input
+                this.chatInput.value = '';
+                this.handleInputChange();
+                
+                // Process message
+                await this.processMessage(message);
+            }
+            
+            async processMessage(message) {
+                this.showTyping();
+                
+                // Simulate processing delay
+                await this.delay(1500);
+                
+                let response = '';
+                
+                // Simple intent recognition
+                if (this.isGreeting(message)) {
+                    response = this.getGreetingResponse();
+                } else if (this.isQuestion(message)) {
+                    response = this.getQuestionResponse(message);
+                } else if (this.isValueQuery(message)) {
+                    response = this.getValueResponse();
+                } else if (this.isReportRequest(message)) {
+                    response = this.getReportResponse();
+                } else {
+                    response = this.getDefaultResponse(message);
+                }
+                
+                this.hideTyping();
+                this.addMessage('bot', response);
+            }
+            
+            async processFile(file) {
+                this.showTyping();
+                
+                // Simulate file processing
+                await this.delay(2500);
+                
+                // Mock extracted data
+                this.extractedData = {
+                    valor: 'R$ 1.247,90',
+                    destinatario: 'Maria Fernanda Oliveira Santos',
+                    cpf: '123.456.789-00',
+                    remetente: 'Carlos Roberto Silva',
+                    data: '15/07/2023 14:23',
+                    transacao: 'PIX9H832FJ73G',
+                    banco_origem: 'Nu Pagamentos S.A.',
+                    banco_destino: 'Banco do Brasil'
+                };
+                
+                const response = this.getExtractionResponse();
+                
+                this.hideTyping();
+                this.addMessage('bot', response);
+            }
+            
+            // Response generators
+            getExtractionResponse() {
+                return `✅ <strong>Comprovante processado com sucesso!</strong>
+                
+                <div class="extracted-data mt-4 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-3 text-blue-300">📊 Dados Extraídos:</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                        <div><strong>💰 Valor:</strong> ${this.extractedData.valor}</div>
+                        <div><strong>📅 Data:</strong> ${this.extractedData.data}</div>
+                        <div><strong>👤 Destinatário:</strong> ${this.extractedData.destinatario}</div>
+                        <div><strong>📄 CPF:</strong> ${this.extractedData.cpf}</div>
+                        <div><strong>🏦 Remetente:</strong> ${this.extractedData.remetente}</div>
+                        <div><strong>🔢 Transação:</strong> ${this.extractedData.transacao}</div>
+                    </div>
+                </div>
+                
+                Agora você pode me fazer perguntas sobre este comprovante! 🤔`;
+            }
+            
+            getGreetingResponse() {
+                const greetings = [
+                    '👋 Olá! Como posso ajudar com seus comprovantes PIX hoje?',
+                    '😊 Oi! Pronto para analisar alguns comprovantes?',
+                    '🎉 Bem-vindo! Vamos começar a extrair dados dos seus PIX?'
+                ];
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+            
+            getQuestionResponse(message) {
+                if (!this.extractedData) {
+                    return '🤔 Para responder suas perguntas, preciso primeiro analisar um comprovante. Envie um arquivo PIX!';
+                }
+                
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('valor')) {
+                    return `💰 O valor da transação é <strong>${this.extractedData.valor}</strong>`;
+                }
+                if (lowerMessage.includes('destinat') || lowerMessage.includes('receb')) {
+                    return `👤 O destinatário é <strong>${this.extractedData.destinatario}</strong> (CPF: ${this.extractedData.cpf})`;
+                }
+                if (lowerMessage.includes('data') || lowerMessage.includes('quando')) {
+                    return `📅 A transação foi realizada em <strong>${this.extractedData.data}</strong>`;
+                }
+                if (lowerMessage.includes('cpf')) {
+                    return `📄 O CPF do destinatário é <strong>${this.extractedData.cpf}</strong>`;
+                }
+                if (lowerMessage.includes('remetente') || lowerMessage.includes('pagador')) {
+                    return `🏦 O remetente é <strong>${this.extractedData.remetente}</strong>`;
+                }
+                
+                return '🤖 Posso responder sobre: valor, destinatário, data, CPF, remetente. Reformule sua pergunta!';
+            }
+            
+            getValueResponse() {
+                if (!this.extractedData) {
+                    return '💰 Envie um comprovante primeiro para eu analisar os valores!';
+                }
+                return `💰 O valor total da transação analisada é <strong>${this.extractedData.valor}</strong>`;
+            }
+            
+            getReportResponse() {
+                if (!this.extractedData) {
+                    return '📊 Preciso de pelo menos um comprovante para gerar um relatório!';
+                }
+                
+                return `📊 <strong>Relatório da Transação PIX</strong>
+                
+                <div class="bg-gray-800 p-4 rounded-lg mt-3 font-mono text-sm">
+                    =================================<br>
+                    📄 RELATÓRIO PIX - ${new Date().toLocaleDateString()}<br>
+                    =================================<br>
+                    💰 Valor: ${this.extractedData.valor}<br>
+                    📅 Data: ${this.extractedData.data}<br>
+                    👤 De: ${this.extractedData.remetente}<br>
+                    👤 Para: ${this.extractedData.destinatario}<br>
+                    📄 CPF: ${this.extractedData.cpf}<br>
+                    🔢 ID: ${this.extractedData.transacao}<br>
+                    =================================
+                </div>`;
+            }
+            
+            getDefaultResponse(message) {
+                const responses = [
+                    '🤖 Interessante! Mas foque em perguntas sobre comprovantes PIX. Como posso ajudar?',
+                    '💡 Estou aqui para análise de PIX. Envie um comprovante ou faça perguntas específicas!',
+                    '🎯 Minha especialidade são comprovantes PIX. O que você gostaria de saber?'
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+            
+            // Utility functions
+            isGreeting(message) {
+                const greetingWords = ['oi', 'olá', 'hello', 'bom dia', 'boa tarde', 'boa noite'];
+                return greetingWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isQuestion(message) {
+                const questionWords = ['qual', 'como', 'quando', 'onde', 'quem', 'quanto', '?'];
+                return questionWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isValueQuery(message) {
+                const valueWords = ['valor', 'preço', 'quanto', 'dinheiro', 'total'];
+                return valueWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            isReportRequest(message) {
+                const reportWords = ['relatório', 'relatorio', 'resumo', 'report'];
+                return reportWords.some(word => message.toLowerCase().includes(word));
+            }
+            
+            addMessage(sender, content, file = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `animate-fade-in ${sender === 'user' ? 'flex justify-end' : ''}`;
+                
+                if (sender === 'user') {
+                    messageDiv.innerHTML = `
+                        <div class="message-user rounded-2xl p-4 max-w-md">
+                            <div class="text-white">
+                                ${file ? `<div class="flex items-center mb-2"><i class="fas fa-file mr-2"></i><span class="text-sm">${file.name}</span></div>` : ''}
+                                ${content}
+                            </div>
+                            <div class="text-xs text-gray-200 mt-2 opacity-70">${new Date().toLocaleTimeString()}</div>
+                        </div>
+                    `;
+                } else {
+                    messageDiv.innerHTML = `
+                        <div class="message-bot rounded-2xl p-4 max-w-2xl">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-robot text-sm"></i>
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <div class="text-sm text-gray-400 mb-1">Assistente PIX</div>
+                                    <div class="text-gray-100">${content}</div>
+                                    <div class="text-xs text-gray-500 mt-2">${new Date().toLocaleTimeString()}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                this.messagesContainer.appendChild(messageDiv);
+                this.scrollToBottom();
+                
+                // Save to history
+                this.conversationHistory.push({ sender, content, timestamp: new Date() });
+            }
+            
+            showTyping() {
+                this.typingIndicator.classList.remove('hidden');
+                this.scrollToBottom();
+            }
+            
+            hideTyping() {
+                this.typingIndicator.classList.add('hidden');
+            }
+            
+            scrollToBottom() {
+                setTimeout(() => {
+                    this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+                }, 100);
+            }
+            
+            clearChat() {
+                if (confirm('Deseja limpar toda a conversa?')) {
+                    this.messagesContainer.innerHTML = `
+                        <div class="message-bot rounded-2xl p-4 max-w-md animate-fade-in">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-robot text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-sm text-gray-400 mb-1">Assistente PIX</div>
+                                    <div class="text-gray-100">🔄 Conversa limpa! Como posso ajudar?</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    this.extractedData = null;
+                    this.conversationHistory = [];
+                }
+            }
+            
+            delay(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+        }
+        
+        // Initialize chatbot when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new PIXChatbot();
+        });
+    </script>
+</body>
+</html>

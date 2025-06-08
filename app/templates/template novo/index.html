@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXText - Extração de Texto de Comprovantes PIX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6',
+                        secondary: '#3b82f6',
+                        dark: '#0f172a',
+                        'dark-800': '#1e293b'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-area:hover, .file-drop-area.drag-over {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .text-highlight {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .text-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -0.5rem;
+            width: calc(100% + 1rem);
+            height: 40%;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 6px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+        
+        .result-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .wave-animation {
+            animation: wave 8s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-100">
+    <!-- Header Section -->
+    <header class="py-6 px-4 md:px-8 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="bg-gradient-to-r from-primary to-secondary w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-receipt text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold ml-3 tracking-tight">PIXText<span class="text-secondary">.ai</span></h1>
+            </div>
+            
+            <nav class="flex space-x-1 md:space-x-6">
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Início</a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Sobre</a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">API</a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Contato</a>
+            </nav>
+            
+            <div class="mt-4 md:mt-0">
+                <button class="px-5 py-2 bg-gradient-to-r from-primary to-secondary rounded-lg font-semibold hover:opacity-90 transition-all">
+                    <i class="fas fa-rocket mr-2"></i>Assine Agora
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="px-4 md:px-8 py-16 md:py-24">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-gray-800 text-secondary py-1 px-3 rounded-full inline-flex items-center text-sm mb-4">
+                    <span class="h-2 w-2 bg-secondary rounded-full mr-2 animate-pulse"></span> TECNOLOGIA OCR EM TEMPO REAL
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    <span class="text-highlight">Extraia informações</span> de <br class="hidden sm:block">
+                    comprovantes <span class="text-primary">PIX</span> em segundos
+                </h1>
+                <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                    Nosso algoritmo avançado reconhece automaticamente texto de qualquer comprovante PIX. Economize tempo evitando digitação manual.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button class="flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-xl font-medium text-lg group">
+                        <i class="fas fa-play-circle mr-3 text-xl"></i> Ver Demonstração
+                        <i class="fas fa-arrow-right ml-3 transition-transform group-hover:translate-x-1"></i>
+                    </button>
+                    <button class="px-8 py-4 bg-gray-800 rounded-xl font-medium text-lg hover:bg-gray-700 transition">
+                        <i class="fas fa-book-open mr-3"></i> Documentação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content - Extraction Tool -->
+    <section class="px-4 md:px-8 py-12 md:py-20">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Left Column - Upload Area -->
+                <div class="wave-animation">
+                    <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-2xl p-8 shadow-xl">
+                        <h2 class="text-2xl font-bold mb-2">Envie seu comprovante PIX</h2>
+                        <p class="text-gray-400 mb-6">Arraste e solte ou clique para fazer upload do seu recibo</p>
+                        
+                        <div id="drop-area" class="file-drop-area rounded-xl p-12 mb-8 text-center cursor-pointer transition-colors">
+                            <div class="floating inline-flex flex-col items-center justify-center">
+                                <i class="fas fa-cloud-upload-alt text-5xl text-primary mb-4"></i>
+                                <h3 class="text-xl font-medium mb-1">Arraste seu arquivo aqui</h3>
+                                <p class="text-gray-400 mb-4">ou clique para selecionar</p>
+                            </div>
+                            <input type="file" id="file-input" class="hidden" accept="image/*, .pdf">
+                            <button id="upload-btn" class="px-5 py-2.5 bg-gray-700 rounded-lg hover:bg-gray-600 transition">
+                                <i class="fas fa-folder-open mr-2"></i>Selecionar Arquivo
+                            </button>
+                            <p class="text-sm text-gray-500 mt-4">Formatos suportados: JPG, PNG, PDF</p>
+                        </div>
+                        
+                        <div id="file-preview" class="hidden mb-6">
+                            <h3 class="text-lg font-medium mb-4">Pré-visualização:</h3>
+                            <div class="relative border-2 border-dashed border-gray-600 rounded-xl overflow-hidden bg-gray-900 aspect-video flex items-center justify-center">
+                                <img id="preview-image" class="max-h-64 object-contain">
+                                <div id="pdf-preview" class="hidden flex-col items-center justify-center p-4">
+                                    <i class="fas fa-file-pdf text-5xl text-red-500 mb-3"></i>
+                                    <p id="pdf-name" class="font-medium max-w-full truncate"></p>
+                                    <p class="text-sm text-gray-400 mt-1">Documento PDF pronto para extração</p>
+                                </div>
+                                <button id="remove-file" class="absolute top-3 right-3 p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="progress-container" class="hidden mb-6">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Processando...</span>
+                                <span id="progress-percent">0%</span>
+                            </div>
+                            <div class="progress-bar"></div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <button id="extract-btn" class="w-full py-4 bg-gradient-to-r from-primary to-secondary rounded-xl font-semibold text-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <i class="fas fa-bolt mr-2"></i>Extrair Texto Agora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column - Results Area -->
+                <div>
+                    <div class="result-card rounded-2xl p-8 shadow-xl">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold">Resultados da Extração</h2>
+                            <div class="bg-gray-800 text-primary px-3 py-1 rounded-full text-sm">
+                                <i class="fas fa-qrcode mr-2"></i>Tecnologia OCR
+                            </div>
+                        </div>
+                        
+                        <div id="result-empty" class="flex flex-col items-center justify-center py-16 text-center">
+                            <i class="fas fa-file-invoice text-6xl text-primary mb-6 opacity-30"></i>
+                            <h3 class="text-xl font-medium mb-2">Resultados de Texto Extraído</h3>
+                            <p class="text-gray-400 max-w-xs">
+                                Envie um comprovante PIX para extrair automaticamente informações como valor, destinatário, data e mais.
+                            </p>
+                        </div>
+                        
+                        <div id="result-content" class="hidden">
+                            <div class="bg-gray-900 p-6 rounded-xl mb-6">
+                                <div class="flex flex-wrap gap-3 mb-5">
+                                    <span class="bg-indigo-900 text-primary px-3 py-1 rounded-lg text-sm">
+                                        <i class="fas fa-check-circle mr-1"></i> Validação OK
+                                    </span>
+                                    <span class="bg-blue-900 text-secondary px-3 py-1 rounded-lg text-sm">
+                                        <i class="fas fa-bolt mr-1"></i> Processado em 1.8s
+                                    </span>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-400 mb-1">VALOR:</h4>
+                                        <p class="text-xl font-bold">R$ 1.247,90</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-400 mb-1">DESTINATÁRIO:</h4>
+                                        <p class="text-lg">Maria Fernanda Oliveira Santos</p>
+                                        <p class="text-gray-400">CPF: 123.456.789-00</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-gray-400 mb-1">REMETENTE:</h4>
+                                        <p class="text-lg">Carlos Roberto Silva</p>
+                                        <p class="text-gray-400">Conta: 12345-6 / Ag: 7890</p>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-gray-400 mb-1">DATA:</h4>
+                                            <p>15/07/2023 14:23</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-gray-400 mb-1">ID DA TRANSAÇÃO:</h4>
+                                            <p>PIX9H832FJ73G</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h3 class="text-lg font-medium mb-3">Texto Completo Extraído:</h3>
+                                <div class="bg-gray-900 rounded-xl p-5 text-sm font-mono max-h-56 overflow-auto">
+                                    <p>[INÍCIO DO COMPROVANTE PIX]</p>
+                                    <p class="text-primary">*** COMPROVANTE DE TRANSAÇÃO PIX ***</p>
+                                    <p>Data: 15/07/2023 Hora: 14:23:45</p>
+                                    <p>Valor: R$ 1.247,90</p>
+                                    <p class="mt-3">Tipo: Transferência PIX</p>
+                                    <p>Origem:</p>
+                                    <p>Carlos Roberto Silva</p>
+                                    <p>Banco: 260 - Nu Pagamentos S.A.</p>
+                                    <p>Ag: 7890 Conta: 12345-6</p>
+                                    <p class="mt-3">Destino:</p>
+                                    <p>Maria Fernanda Oliveira Santos</p>
+                                    <p>CPF: 123.456.789-00</p>
+                                    <p>Banco: 001 - Banco do Brasil</p>
+                                    <p class="mt-3">ID da Transação: PIX9H832FJ73G</p>
+                                    <p>Status: Concluído com sucesso</p>
+                                    <p>[FIM DO COMPROVANTE]</p>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <button class="py-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
+                                    <i class="fas fa-download mr-2"></i>Baixar TXT
+                                </button>
+                                <button class="py-3 bg-gradient-to-r from-secondary to-primary rounded-lg hover:opacity-90 transition">
+                                    <i class="fas fa-sync mr-2"></i>Extrair Outro
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="px-4 md:px-8 py-16 bg-dark-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold mb-4">Porque usar nosso extrator PIX?</h2>
+                <p class="text-gray-400">Recursos avançados que simplificam a extração de dados financeiros</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-dark p-6 rounded-xl border border-gray-800">
+                    <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-5">
+                        <i class="fas fa-bolt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">Processamento Rápido</h3>
+                    <p class="text-gray-400">Extração de texto em menos de 3 segundos com nossa tecnologia OCR otimizada para comprovantes PIX.</p>
+                </div>
+                
+                <div class="bg-dark p-6 rounded-xl border border-gray-800">
+                    <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-secondary to-primary flex items-center justify-center mb-5">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">Segurança Máxima</h3>
+                    <p class="text-gray-400">Todos os documentos são processados localmente e excluídos automaticamente após a extração.</p>
+                </div>
+                
+                <div class="bg-dark p-6 rounded-xl border border-gray-800">
+                    <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-primary to-purple-500 flex items-center justify-center mb-5">
+                        <i class="fas fa-cogs text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-medium mb-3">Reconhecimento Inteligente</h3>
+                    <p class="text-gray-400">AI que identifica padrões em diferentes formatos de comprovantes e extrai dados estruturados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-4 md:px-8 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <div class="bg-gradient-to-r from-primary to-secondary w-8 h-8 rounded-lg flex items-center justify-center mr-2">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        PIXText.ai
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        Solução avançada para extração de dados de comprovantes PIX utilizando tecnologia OCR.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-500 transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Recursos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Documentação</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">API</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Exemplos</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Changelog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Empresa</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Sobre Nós</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Carreiras</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Notícias</h4>
+                    <p class="text-gray-400 mb-4">
+                        Inscreva-se para receber atualizações sobre novos recursos.
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="Seu email" class="px-4 py-2 bg-gray-800 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary w-full">
+                        <button class="bg-gradient-to-r from-primary to-secondary px-4 py-2 rounded-r-lg font-medium">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2023 PIXText.ai. Todos os direitos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-gray-300">Termos</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300">Privacidade</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('file-input');
+            const uploadBtn = document.getElementById('upload-btn');
+            const filePreview = document.getElementById('file-preview');
+            const previewImage = document.getElementById('preview-image');
+            const pdfPreview = document.getElementById('pdf-preview');
+            const pdfName = document.getElementById('pdf-name');
+            const removeFile = document.getElementById('remove-file');
+            const extractBtn = document.getElementById('extract-btn');
+            const progressContainer = document.getElementById('progress-container');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressBar = document.querySelector('.progress-bar');
+            const resultEmpty = document.getElementById('result-empty');
+            const resultContent = document.getElementById('result-content');
+            
+            // Upload button click
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            
+            // File input change
+            fileInput.addEventListener('change', handleFileSelection);
+            
+            // Drag and drop events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight() {
+                dropArea.classList.add('drag-over');
+            }
+            
+            function unhighlight() {
+                dropArea.classList.remove('drag-over');
+            }
+            
+            // Handle dropped file
+            dropArea.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+            
+            function handleFileSelection() {
+                const files = fileInput.files;
+                handleFiles(files);
+            }
+            
+            function handleFiles(files) {
+                if (files.length === 0) return;
+                
+                const file = files[0];
+                const fileType = file.type;
+                
+                // Check if file is valid
+                if (!fileType.match(/(image\/(jpeg|png)|application\/pdf)/)) {
+                    alert('Por favor, envie um arquivo de imagem (JPG, PNG) ou PDF.');
+                    return;
+                }
+                
+                if (fileType.includes('image')) {
+                    // Display image preview
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewImage.classList.remove('hidden');
+                        pdfPreview.classList.add('hidden');
+                        filePreview.classList.remove('hidden');
+                    }
+                    
+                    reader.readAsDataURL(file);
+                } else {
+                    // Display PDF placeholder
+                    pdfName.textContent = file.name;
+                    pdfPreview.classList.remove('hidden');
+                    previewImage.classList.add('hidden');
+                    filePreview.classList.remove('hidden');
+                }
+                
+                // Enable extract button
+                extractBtn.disabled = false;
+            }
+            
+            // Remove file
+            removeFile.addEventListener('click', () => {
+                fileInput.value = '';
+                filePreview.classList.add('hidden');
+                extractBtn.disabled = true;
+            });
+            
+            // Extract text button
+            extractBtn.addEventListener('click', () => {
+                // Simulate extraction with progress
+                progressContainer.classList.remove('hidden');
+                progressPercent.textContent = '0%';
+                progressBar.style.width = '0%';
+                
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    progressBar.style.width = progress + '%';
+                    progressPercent.textContent = progress + '%';
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        
+                        // Show results after delay to simulate processing
+                        setTimeout(() => {
+                            resultEmpty.classList.add('hidden');
+                            resultContent.classList.remove('hidden');
+                            progressContainer.classList.add('hidden');
+                        }, 500);
+                    }
+                }, 100);
+            });
+            
+            // Fake view demo button action
+            document.querySelector('.group').addEventListener('click', function() {
+                const demoFiles = [
+                    {name: 'demo-receipt.jpg', type: 'image/jpeg'},
+                    {name: 'demo-receipt.pdf', type: 'application/pdf'}
+                ];
+                
+                const randomFile = demoFiles[Math.floor(Math.random() * demoFiles.length)];
+                const fakeEvent = {target: {files: [randomFile]}};
+                
+                // Call handleFiles with demo file
+                handleFiles(fakeEvent.target.files);
+                
+                // Scroll to extraction tool
+                document.querySelector('#drop-area').scrollIntoView({behavior: 'smooth'});
+            });
+        });
+    </script>
+</body>
+</html>

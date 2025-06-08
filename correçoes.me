@@ -1,0 +1,50 @@
+Analisando os erros apresentados, identifiquei os seguintes problemas que precisam ser corrigidos:
+
+🔍 Problemas Identificados:
+1. Erro de Treinamento ML (Principal)
+Causa: O algoritmo de Machine Learning está tentando fazer validação cruzada, mas algumas classes de bancos têm apenas 1 exemplo nos dados de treinamento.
+
+Solução necessária:
+
+Modificar src/ml/trainer.py para usar train_test_split com stratify=None quando há classes com poucos exemplos
+Ou implementar uma validação alternativa para classes com poucos dados
+Ou agrupar bancos com poucos exemplos em uma classe "outros"
+2. Templates HTML Ausentes
+Causa: Os arquivos de template HTML não foram criados na pasta app/templates/
+
+Arquivos que precisam ser criados:
+
+app/templates/upload.html
+app/templates/chatbot.html
+app/templates/analytics.html
+app/templates/results.html
+app/templates/base.html (template base)
+3. Estrutura de Diretórios Incompleta
+Diretórios que precisam existir:
+
+app/templates/
+app/static/
+src/ocr/
+src/ml/
+src/utils/
+4. Arquivos de Código Principais Ausentes
+Arquivos que precisam ser criados:
+
+main.py (arquivo principal)
+src/ocr/extractor.py
+src/ml/trainer.py
+src/ml/yolo_detector.py
+app/__init__.py
+app/routes/main.py
+app/routes/api.py
+📋 Ordem de Correção Recomendada:
+Primeiro: Criar estrutura de diretórios e arquivos Python principais
+Segundo: Criar templates HTML básicos
+Terceiro: Corrigir lógica de treinamento ML para lidar com classes pequenas
+Quarto: Testar cada componente individualmente
+⚠️ Observações:
+O sistema está rodando, mas falta a implementação completa
+Os downloads do YOLO e EasyOCR funcionaram corretamente
+O Flask está funcionando na porta 5000
+O erro de ML não impede o funcionamento básico, mas precisa ser corrigido para o treinamento
+O problema principal é que você tem apenas o requirements.txt e alguns arquivos de configuração, mas faltam todos os arquivos de código Python e templates HTML que fazem o sistema funcionar.

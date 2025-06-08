@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PIXText - Extração Inteligente de Comprovantes PIX{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8b5cf6',
+                        secondary: '#3b82f6',
+                        dark: '#0f172a',
+                        'dark-800': '#1e293b'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'fade-in': 'fadeIn 0.3s ease-in'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        
+        .file-drop-area {
+            border: 2px dashed #8b5cf6;
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-area:hover, .file-drop-area.drag-over {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .text-highlight {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .text-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -0.5rem;
+            width: calc(100% + 1rem);
+            height: 40%;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            z-index: -1;
+            border-radius: 4px;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 6px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+        
+        .result-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        
+        .wave-animation {
+            animation: wave 8s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(2deg); }
+            75% { transform: rotate(-2deg); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .nav-active {
+            background-color: rgba(139, 92, 246, 0.2);
+            color: #8b5cf6;
+        }
+        
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body class="min-h-screen text-gray-100">
+    <!-- Header Section -->
+    <header class="py-6 px-4 md:px-8 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <div class="bg-gradient-to-r from-primary to-secondary w-10 h-10 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-receipt text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold ml-3 tracking-tight">PIXText<span class="text-secondary">.ai</span></h1>
+                <span class="ml-3 px-2 py-1 bg-green-600 text-xs rounded-full">
+                    <i class="fas fa-circle text-xs mr-1 animate-pulse"></i>Online
+                </span>
+            </div>
+            
+            <nav class="flex space-x-1 md:space-x-6">
+                <a href="{{ url_for('main.index') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.index' %}nav-active{% endif %}">
+                    <i class="fas fa-home mr-2"></i>Início
+                </a>
+                <a href="{{ url_for('main.upload_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.upload_page' %}nav-active{% endif %}">
+                    <i class="fas fa-upload mr-2"></i>Upload
+                </a>
+                <a href="{{ url_for('main.chatbot_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.chatbot_page' %}nav-active{% endif %}">
+                    <i class="fas fa-robot mr-2"></i>Chatbot
+                </a>
+                <a href="{{ url_for('main.analytics_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.analytics_page' %}nav-active{% endif %}">
+                    <i class="fas fa-chart-bar mr-2"></i>Analytics
+                </a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                    <i class="fas fa-book mr-2"></i>API
+                </a>
+            </nav>
+            
+            <div class="mt-4 md:mt-0">
+                <button class="px-5 py-2 bg-gradient-to-r from-primary to-secondary rounded-lg font-semibold hover:opacity-90 transition-all">
+                    <i class="fas fa-crown mr-2"></i>Upgrade Pro
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="px-4 md:px-8 py-12 border-t border-gray-800 mt-16">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <div class="bg-gradient-to-r from-primary to-secondary w-8 h-8 rounded-lg flex items-center justify-center mr-2">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        PIXText.ai
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        Solução avançada para extração de dados de comprovantes PIX utilizando tecnologia OCR + ML + YOLO.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://github.com/Davidamascen07/TCC2" class="text-gray-400 hover:text-primary transition">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 transition">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-blue-500 transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Funcionalidades</h4>
+                    <ul class="space-y-2">
+                        <li><a href="{{ url_for('main.upload_page') }}" class="text-gray-400 hover:text-primary transition">Extração OCR</a></li>
+                        <li><a href="{{ url_for('main.chatbot_page') }}" class="text-gray-400 hover:text-primary transition">Chatbot AI</a></li>
+                        <li><a href="{{ url_for('main.analytics_page') }}" class="text-gray-400 hover:text-primary transition">Analytics</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition">API REST</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Bancos Suportados</h4>
+                    <ul class="space-y-2">
+                        <li><span class="text-gray-400">🟣 Nubank</span></li>
+                        <li><span class="text-gray-400">🟠 Inter</span></li>
+                        <li><span class="text-gray-400">🔵 Itaú</span></li>
+                        <li><span class="text-gray-400">🟡 BTG, Will, PicPay...</span></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Suporte</h4>
+                    <p class="text-gray-400 mb-4">
+                        Precisa de ajuda? Entre em contato conosco.
+                    </p>
+                    <div class="flex">
+                        <input type="email" placeholder="Seu email" class="px-4 py-2 bg-gray-800 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-primary w-full">
+                        <button class="bg-gradient-to-r from-primary to-secondary px-4 py-2 rounded-r-lg font-medium">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 mb-4 md:mb-0">© 2025 PIXText.ai - TCC David Damasceno. Todos os direitos reservados.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-gray-300">Termos</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300">Privacidade</a>
+                    <a href="#" class="text-gray-500 hover:text-gray-300">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
