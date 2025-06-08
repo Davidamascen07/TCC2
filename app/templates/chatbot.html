@@ -93,6 +93,11 @@
             background: rgba(59, 130, 246, 0.1);
             border-left: 4px solid #3b82f6;
         }
+        
+        .nav-active {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: white;
+        }
     </style>
 </head>
 <body class="min-h-screen text-gray-100">
@@ -110,9 +115,21 @@
             </div>
             
             <nav class="flex space-x-1 md:space-x-6">
-                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Chat</a>
-                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">API</a>
-                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">Ajuda</a>
+                <a href="{{ url_for('main.index') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.index' %}nav-active{% endif %}">
+                    <i class="fas fa-home mr-2"></i>Início
+                </a>
+                <a href="{{ url_for('main.upload_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.upload_page' %}nav-active{% endif %}">
+                    <i class="fas fa-upload mr-2"></i>Upload
+                </a>
+                <a href="{{ url_for('main.chatbot_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.chatbot_page' %}nav-active{% endif %}">
+                    <i class="fas fa-robot mr-2"></i>Chatbot
+                </a>
+                <a href="{{ url_for('main.analytics_page') }}" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition {% if request.endpoint == 'main.analytics_page' %}nav-active{% endif %}">
+                    <i class="fas fa-chart-bar mr-2"></i>Analytics
+                </a>
+                <a href="#" class="px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                    <i class="fas fa-book mr-2"></i>API
+                </a>
             </nav>
             
             <div class="mt-4 md:mt-0">

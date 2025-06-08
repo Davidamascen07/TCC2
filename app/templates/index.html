@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,99 +8,321 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-receipt"></i> Extrator PIX
-            </a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="/upload">Upload</a>
-                <a class="nav-link" href="/chatbot">Chatbot</a>
-                <a class="nav-link" href="/results">Resultados</a>
-                <a class="nav-link" href="/analytics">Analytics</a>
-            </div>
-        </div>
-    </nav>
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1><i class="fas fa-magic"></i> Extrator Inteligente de Comprovantes PIX</h1>
-                <p class="lead">Sistema avançado com OCR, Machine Learning e YOLO para extração precisa de dados</p>
-            </div>
-        </div>
+</html>
+{% extends "base.html" %}
 
-        <div class="row mt-5">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-upload fa-3x text-primary mb-3"></i>
-                        <h5 class="card-title">Upload de Comprovantes</h5>
-                        <p class="card-text">Envie suas imagens de comprovantes PIX para extração automática de dados</p>
-                        <a href="/upload" class="btn btn-primary">Começar</a>
-                    </div>
-                </div>
-            </div>
+{% block title %}PIXText - Extração Inteligente de Comprovantes PIX{% endblock %}
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-robot fa-3x text-success mb-3"></i>
-                        <h5 class="card-title">Chatbot Inteligente</h5>
-                        <p class="card-text">Converse com nossa IA para análise e extração de dados dos comprovantes</p>
-                        <a href="/chatbot" class="btn btn-success">Conversar</a>
-                    </div>
-                </div>
+{% block content %}
+<!-- Hero Section -->
+<section class="px-4 md:px-8 py-12 md:py-20">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <div class="bg-gray-800 text-secondary py-1 px-3 rounded-full inline-flex items-center text-sm mb-6">
+                <span class="h-2 w-2 bg-secondary rounded-full mr-2 animate-pulse"></span> SISTEMA AVANÇADO DE EXTRAÇÃO
+                PIX
             </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                Extraia dados de <span class="text-highlight">Comprovantes PIX</span> com <span
+                    class="text-primary">Inteligência Artificial</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto mb-12 leading-relaxed">
+                Tecnologia de ponta com <strong class="text-secondary">OCR + Machine Learning + YOLO</strong> para
+                extrair automaticamente dados de comprovantes PIX com precisão de 98.5%
+            </p>
 
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="fas fa-chart-bar fa-3x text-info mb-3"></i>
-                        <h5 class="card-title">Análises</h5>
-                        <p class="card-text">Visualize estatísticas e análises dos comprovantes processados</p>
-                        <a href="/analytics" class="btn btn-info">Ver Analytics</a>
-                    </div>
-                </div>
+            <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+                <a href="{{ url_for('main.upload_page') }}"
+                    class="px-8 py-4 bg-gradient-to-r from-primary to-secondary rounded-xl font-semibold text-lg hover:opacity-90 transition-all transform hover:scale-105 shadow-2xl">
+                    <i class="fas fa-rocket mr-3"></i>🚀 Começar Extração
+                </a>
+                <a href="{{ url_for('main.chatbot_page') }}"
+                    class="px-8 py-4 bg-gray-800 rounded-xl font-semibold text-lg hover:bg-gray-700 transition-all transform hover:scale-105 border-2 border-gray-600">
+                    <i class="fas fa-robot mr-3"></i>🤖 Conversar com IA
+                </a>
             </div>
         </div>
 
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3>Recursos do Sistema</h3>
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <i class="fas fa-eye text-primary"></i> OCR Avançado (Tesseract + EasyOCR)
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-brain text-success"></i> Machine Learning para Classificação
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-search text-info"></i> Detecção YOLO de Regiões
-                            </li>
-                        </ul>
+        <!-- Demo Preview -->
+        <div class="relative mx-auto max-w-5xl mb-16">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-3xl blur-xl"></div>
+            <div
+                class="relative bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 rounded-3xl border border-gray-700 overflow-hidden shadow-2xl">
+                <div class="bg-dark-800 px-6 py-4 border-b border-gray-700">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="ml-4 text-gray-400 text-sm">PIXText.ai - Demonstração</span>
                     </div>
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <i class="fas fa-university text-warning"></i> Suporte Multi-Bancos
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-batch text-danger"></i> Processamento em Lote
-                            </li>
-                            <li class="list-group-item">
-                                <i class="fas fa-api text-secondary"></i> API REST Completa
-                            </li>
-                        </ul>
+                </div>
+                <div class="p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">📱 Upload do Comprovante</h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-center p-3 bg-gray-900 rounded-lg">
+                                    <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                                    <span>Comprovante_PIX_nubank.jpg carregado</span>
+                                </div>
+                                <div class="flex items-center p-3 bg-gray-900 rounded-lg">
+                                    <i class="fas fa-eye text-blue-400 mr-3"></i>
+                                    <span>OCR: Tesseract + EasyOCR processando...</span>
+                                </div>
+                                <div class="flex items-center p-3 bg-gray-900 rounded-lg">
+                                    <i class="fas fa-brain text-purple-400 mr-3"></i>
+                                    <span>ML: Banco identificado como "Nubank"</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-4">📊 Dados Extraídos</h3>
+                            <div class="bg-gray-900 p-4 rounded-lg text-sm font-mono">
+                                <div class="text-green-400">💰 Valor: R$ 1.247,90</div>
+                                <div class="text-blue-400">👤 Para: Maria Silva Santos</div>
+                                <div class="text-yellow-400">📱 CPF: ***123.456-**</div>
+                                <div class="text-purple-400">📅 Data: 15/07/2024 14:23</div>
+                                <div class="text-cyan-400">🏦 Banco: Nu Pagamentos S.A.</div>
+                                <div class="text-orange-400">🔢 ID: E182361...</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<!-- Features Section -->
+<section class="px-4 md:px-8 py-16 bg-gray-900/50">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-6">🛠️ Tecnologias de <span class="text-primary">Ponta</span></h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Combinamos as melhores tecnologias de IA para garantir extração precisa e confiável
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="result-card rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-eye text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">🔍 OCR Duplo</h3>
+                <p class="text-gray-400 mb-4">Tesseract + EasyOCR para máxima precisão na leitura de texto</p>
+                <div class="text-sm text-blue-400 font-semibold">98.5% Precisão</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-brain text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">🧠 Machine Learning</h3>
+                <p class="text-gray-400 mb-4">Classificação inteligente de bancos e validação de dados</p>
+                <div class="text-sm text-purple-400 font-semibold">8 Bancos Suportados</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-search text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">🎯 YOLO Detection</h3>
+                <p class="text-gray-400 mb-4">Detecção precisa de regiões importantes nos comprovantes</p>
+                <div class="text-sm text-yellow-400 font-semibold">Regiões Automáticas</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8 text-center hover:scale-105 transition-transform">
+                <div
+                    class="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-robot text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">🤖 Chatbot IA</h3>
+                <p class="text-gray-400 mb-4">Assistente inteligente para análise e consultas</p>
+                <div class="text-sm text-green-400 font-semibold">24/7 Disponível</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="px-4 md:px-8 py-16">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+            <div class="result-card rounded-2xl p-8">
+                <div class="text-4xl font-bold text-primary mb-2 animate-pulse-slow">104</div>
+                <div class="text-gray-400">📄 Comprovantes Processados</div>
+                <div class="text-sm text-gray-500 mt-1">Dataset de Treinamento</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8">
+                <div class="text-4xl font-bold text-green-400 mb-2">R$ 4.705,10</div>
+                <div class="text-gray-400">💰 Valor Total Extraído</div>
+                <div class="text-sm text-gray-500 mt-1">Março - Junho 2025</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8">
+                <div class="text-4xl font-bold text-secondary mb-2">8</div>
+                <div class="text-gray-400">🏦 Bancos Suportados</div>
+                <div class="text-sm text-gray-500 mt-1">Nubank, Inter, Itaú...</div>
+            </div>
+
+            <div class="result-card rounded-2xl p-8">
+                <div class="text-4xl font-bold text-yellow-400 mb-2">98.5%</div>
+                <div class="text-gray-400">🎯 Precisão Média</div>
+                <div class="text-sm text-gray-500 mt-1">Taxa de Acerto OCR</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Supported Banks -->
+<section class="px-4 md:px-8 py-16 bg-gray-900/30">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4">🏦 Bancos <span class="text-primary">Suportados</span></h2>
+            <p class="text-gray-400">Nosso sistema reconhece automaticamente comprovantes destes bancos</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-purple-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">Nu</span>
+                </div>
+                <div class="text-sm font-semibold">Nubank</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-orange-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">IN</span>
+                </div>
+                <div class="text-sm font-semibold">Inter</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-blue-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">IT</span>
+                </div>
+                <div class="text-sm font-semibold">Itaú</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-yellow-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">BTG</span>
+                </div>
+                <div class="text-sm font-semibold">BTG</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-green-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">BB</span>
+                </div>
+                <div class="text-sm font-semibold">Banco do Brasil</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-cyan-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">CX</span>
+                </div>
+                <div class="text-sm font-semibold">Caixa</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-indigo-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">W</span>
+                </div>
+                <div class="text-sm font-semibold">Will Bank</div>
+            </div>
+
+            <div class="result-card p-4 text-center hover:scale-105 transition-transform">
+                <div class="w-12 h-12 bg-pink-600 rounded-xl mx-auto mb-2 flex items-center justify-center">
+                    <span class="text-xl font-bold">+</span>
+                </div>
+                <div class="text-sm font-semibold">Mais Bancos</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="px-4 md:px-8 py-20">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+            Pronto para <span class="text-highlight">Automatizar</span> sua Extração de Dados?
+        </h2>
+        <p class="text-xl text-gray-300 mb-10">
+            Junte-se a centenas de usuários que já automatizaram sua análise de comprovantes PIX
+        </p>
+
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <a href="{{ url_for('main.upload_page') }}"
+                class="px-10 py-5 bg-gradient-to-r from-primary to-secondary rounded-xl font-bold text-xl hover:opacity-90 transition-all transform hover:scale-105 shadow-2xl">
+                <i class="fas fa-rocket mr-3"></i>🚀 Começar Agora - Grátis
+            </a>
+            <a href="{{ url_for('main.chatbot_page') }}"
+                class="px-10 py-5 bg-gray-800 rounded-xl font-bold text-xl hover:bg-gray-700 transition-all transform hover:scale-105 border-2 border-gray-600">
+                <i class="fas fa-robot mr-3"></i>🤖 Experimentar Chatbot
+            </a>
+        </div>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-8 text-gray-400 text-sm">
+            <div class="flex items-center">
+                <i class="fas fa-check text-green-400 mr-2"></i>
+                ✅ Gratuito para usar
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-shield-alt text-blue-400 mr-2"></i>
+                🔒 Dados seguros
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-bolt text-yellow-400 mr-2"></i>
+                ⚡ Processamento instantâneo
+            </div>
+            <div class="flex items-center">
+                <i class="fas fa-api text-purple-400 mr-2"></i>
+                🔗 API disponível
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Animated counters for stats
+        const counters = document.querySelectorAll('.animate-pulse-slow');
+        counters.forEach(counter => {
+            const target = parseInt(counter.textContent);
+            let current = 0;
+            const increment = target / 100;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = Math.floor(current);
+            }, 50);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

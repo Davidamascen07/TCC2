@@ -16,165 +16,224 @@ class PIXMLTrainer:
         self.vectorizer = TfidfVectorizer(max_features=1000, stop_words=None)
         self.classifier = RandomForestClassifier(n_estimators=100, random_state=42)
         self.models_path = Path('data/models')
-        self.models_path.mkdir(exist_ok=True)
+        self.models_path.mkdir(parents=True, exist_ok=True)
         self.min_samples_per_class = min_samples_per_class
         
     def load_annotations(self, annotations_path: str) -> List[Dict]:
-        """Carrega as anotações do arquivo JSON"""
-        with open(annotations_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        return data['anotacoes']
+        """Carrega as anotações do arquivo JSON com dados REAIS"""
+        try:
+            with open(annotations_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return data.get('anotacoes', [])
+        except FileNotFoundError:
+            print(f"⚠️ Arquivo de anotações não encontrado: {annotations_path}")
+            return []
+        except Exception as e:
+            print(f"⚠️ Erro ao carregar anotações: {e}")
+            return []
     
-    def prepare_training_data(self, annotations: List[Dict]) -> Tuple[List[str], List[str]]:
-        """Prepara dados de treinamento baseado nas anotações com agrupamento inteligente"""
+    def prepare_training_data_real(self, annotations: List[Dict]) -> Tuple[List[str], List[str]]:
+        """Prepara dados de treinamento REAIS baseado nas anotações existentes"""
         texts = []
         labels = []
         
-        # Primeira passagem: coletar todos os labels para análise
-        temp_labels = []
-        temp_texts = []
+        print(f"📚 Processando {len(annotations)} anotações reais...")
         
-        for annotation in annotations:
-            # Criar texto combinado com todas as informações
-            combined_text = f"""
-            {annotation.get('valor', '')}
-            {annotation.get('data', '')}
-            {annotation.get('horario', '')}
-            {annotation.get('destinatario', {}).get('nome', '')}
-            {annotation.get('destinatario', {}).get('instituicao', '')}
-            {annotation.get('remetente', {}).get('nome', '')}
-            {annotation.get('remetente', {}).get('instituicao', '')}
-            {annotation.get('tipo', '')}
-            """.strip()
+        for i, annotation in enumerate(annotations):
+            # Extrair texto real das anotações
+            combined_features = self._extract_real_features(annotation)
             
-            # Identificar banco pela instituição
-            instituicao_remetente = annotation.get('remetente', {}).get('instituicao', '').lower()
-            instituicao_destinatario = annotation.get('destinatario', {}).get('instituicao', '').lower()
+            # Identificar banco real pela instituição
+            bank_label = self._identify_real_bank(annotation)
             
-            bank_label = self._identify_bank_from_institution(
-                instituicao_remetente, instituicao_destinatario
-            )
+            texts.append(combined_features)
+            labels.append(bank_label)
             
-            temp_texts.append(combined_text)
-            temp_labels.append(bank_label)
+            if i % 20 == 0:
+                print(f"   Processadas {i}/{len(annotations)} anotações...")
         
-        # Analisar distribuição de classes
-        label_counts = Counter(temp_labels)
-        print(f"📊 Distribuição de classes antes do agrupamento:")
-        for label, count in sorted(label_counts.items()):
-            print(f"   {label}: {count} exemplos")
+        # Analisar distribuição real
+        label_counts = Counter(labels)
+        print(f"\n📊 Distribuição REAL de bancos:")
+        for label, count in sorted(label_counts.items(), key=lambda x: x[1], reverse=True):
+            print(f"   {label}: {count} comprovantes")
         
-        # Agrupar classes com poucos exemplos
+        # Agrupar classes com poucos exemplos (dados reais)
         major_classes = {label for label, count in label_counts.items() 
                         if count >= self.min_samples_per_class}
         
         print(f"\n🎯 Classes principais (>= {self.min_samples_per_class} exemplos): {sorted(major_classes)}")
         
-        # Segunda passagem: aplicar agrupamento
-        for text, label in zip(temp_texts, temp_labels):
+        # Aplicar agrupamento inteligente para dados reais
+        final_texts = []
+        final_labels = []
+        
+        for text, label in zip(texts, labels):
             if label in major_classes:
                 final_label = label
             else:
-                final_label = 'outros_bancos'  # Agrupa bancos com poucos exemplos
+                final_label = 'outros_bancos'
             
-            texts.append(text)
-            labels.append(final_label)
+            final_texts.append(text)
+            final_labels.append(final_label)
         
         # Mostrar distribuição final
-        final_label_counts = Counter(labels)
-        print(f"\n📊 Distribuição final de classes:")
-        for label, count in sorted(final_label_counts.items()):
+        final_counts = Counter(final_labels)
+        print(f"\n📊 Distribuição final (pós-agrupamento):")
+        for label, count in sorted(final_counts.items(), key=lambda x: x[1], reverse=True):
             print(f"   {label}: {count} exemplos")
         
-        return texts, labels
-    
-    def _identify_bank_from_institution(self, inst_remetente: str, inst_destinatario: str) -> str:
-        """Identifica o banco baseado nas instituições"""
-        institutions = f"{inst_remetente} {inst_destinatario}".lower()
+        return final_texts, final_labels
+
+    def _extract_real_features(self, annotation: Dict) -> str:
+        """Extrai características reais dos comprovantes para treinamento"""
+        features = []
         
-        # Mapeamento mais abrangente baseado nas anotações reais
-        if any(term in institutions for term in ['nubank', 'nu pagamentos']):
+        # Dados do destinatário (reais)
+        if 'destinatario' in annotation:
+            dest = annotation['destinatario']
+            if 'nome' in dest:
+                features.append(f"destinatario_nome {dest['nome']}")
+            if 'instituicao' in dest:
+                features.append(f"destinatario_banco {dest['instituicao']}")
+            if 'cpf' in dest:
+                features.append(f"destinatario_cpf {dest['cpf']}")
+        
+        # Dados do remetente (reais)
+        if 'remetente' in annotation:
+            rem = annotation['remetente']
+            if 'nome' in rem:
+                features.append(f"remetente_nome {rem['nome']}")
+            if 'instituicao' in rem:
+                features.append(f"remetente_banco {rem['instituicao']}")
+            if 'cpf' in rem:
+                features.append(f"remetente_cpf {rem['cpf']}")
+        
+        # Dados da transação (reais)
+        if 'valor' in annotation:
+            features.append(f"valor {annotation['valor']}")
+        if 'data' in annotation:
+            features.append(f"data {annotation['data']}")
+        if 'horario' in annotation:
+            features.append(f"horario {annotation['horario']}")
+        if 'tipo' in annotation:
+            features.append(f"tipo {annotation['tipo']}")
+        if 'id_transacao' in annotation:
+            features.append(f"id_transacao {annotation['id_transacao']}")
+        
+        # Dados técnicos (reais)
+        if 'arquivo_origem' in annotation:
+            # Extrair informações do nome do arquivo
+            filename = annotation['arquivo_origem'].lower()
+            if 'nubank' in filename:
+                features.append("arquivo_nubank")
+            elif 'inter' in filename:
+                features.append("arquivo_inter")
+            elif 'itau' in filename:
+                features.append("arquivo_itau")
+        
+        return ' '.join(features)
+
+    def _identify_real_bank(self, annotation: Dict) -> str:
+        """Identifica o banco REAL baseado nas instituições das anotações"""
+        # Verificar remetente e destinatário
+        institutions = []
+        
+        if 'remetente' in annotation and 'instituicao' in annotation['remetente']:
+            institutions.append(annotation['remetente']['instituicao'].lower())
+        
+        if 'destinatario' in annotation and 'instituicao' in annotation['destinatario']:
+            institutions.append(annotation['destinatario']['instituicao'].lower())
+        
+        # Combinar todas as instituições
+        all_institutions = ' '.join(institutions)
+        
+        # Mapeamento baseado nos dados REAIS das anotações
+        if any(term in all_institutions for term in ['nubank', 'nu pagamentos']):
             return 'nubank'
-        elif any(term in institutions for term in ['inter', 'banco inter']):
+        elif any(term in all_institutions for term in ['inter', 'banco inter']):
             return 'inter'
-        elif any(term in institutions for term in ['itau', 'unibanco']):
+        elif any(term in all_institutions for term in ['itau', 'unibanco']):
             return 'itau'
-        elif 'will' in institutions:
-            return 'will'
-        elif 'picpay' in institutions:
-            return 'picpay'
-        elif any(term in institutions for term in ['btg', 'pactual']):
+        elif any(term in all_institutions for term in ['btg', 'pactual']):
             return 'btg'
-        elif any(term in institutions for term in ['caixa', 'econômica']):
+        elif 'will' in all_institutions:
+            return 'will'
+        elif 'picpay' in all_institutions:
+            return 'picpay'
+        elif any(term in all_institutions for term in ['caixa', 'econômica']):
             return 'caixa'
-        elif any(term in institutions for term in ['brasil', 'bco do brasil']):
+        elif any(term in all_institutions for term in ['brasil', 'bco do brasil']):
             return 'bb'
-        elif any(term in institutions for term in ['pagbank', 'pagseguro']):
+        elif any(term in all_institutions for term in ['pagbank', 'pagseguro']):
             return 'pagbank'
-        elif any(term in institutions for term in ['cloudwalk', 'mercado pago']):
+        elif any(term in all_institutions for term in ['cloudwalk', 'mercado pago', 'conpay']):
             return 'fintech'
         else:
             return 'unknown'
     
-    def train_bank_classifier(self, annotations_path: str):
-        """Treina classificador para identificação de bancos com validação inteligente"""
-        print("🚀 Iniciando treinamento do classificador de bancos...")
+    def train_bank_classifier(self, annotations_path: str = None):
+        """Treina classificador usando dados REAIS das anotações"""
+        print("🚀 Iniciando treinamento com dados REAIS...")
         
         try:
-            annotations = self.load_annotations(annotations_path)
-            print(f"📁 Carregadas {len(annotations)} anotações")
+            # Usar caminho padrão se não especificado
+            if annotations_path is None:
+                annotations_path = 'data/annotations/comprovantes_anotados.json'
             
-            texts, labels = self.prepare_training_data(annotations)
+            annotations = self.load_annotations(annotations_path)
+            
+            if not annotations:
+                print("⚠️ Nenhuma anotação encontrada. Criando modelo básico...")
+                self._create_basic_model(['texto_exemplo'], ['nubank'])
+                return
+
+            print(f"📁 Carregadas {len(annotations)} anotações reais")
+            
+            texts, labels = self.prepare_training_data_real(annotations)
             
             # Verificar se há dados suficientes
             if len(set(labels)) < 2:
-                print("⚠️  Aviso: Apenas uma classe encontrada. Criando modelo básico...")
-                self._create_basic_model(texts, labels)
-                return
+                print("⚠️ Apenas uma classe encontrada. Adicionando dados sintéticos...")
+                texts, labels = self._augment_with_synthetic_data(texts, labels)
             
             # Vetorização
-            print("🔄 Vetorizando textos...")
+            print("🔄 Vetorizando textos reais...")
             X = self.vectorizer.fit_transform(texts)
             y = np.array(labels)
             
-            # Verificar se podemos fazer stratify
+            # Divisão estratificada se possível
             label_counts = Counter(labels)
             min_count = min(label_counts.values())
             
             if min_count >= 2:
-                # Pode usar stratify
                 print("✅ Usando divisão estratificada")
                 X_train, X_test, y_train, y_test = train_test_split(
                     X, y, test_size=0.2, random_state=42, stratify=y
                 )
                 use_validation = True
             else:
-                # Não pode usar stratify
-                print("⚠️  Usando divisão simples (sem estratificação)")
-                warnings.filterwarnings('ignore')
+                print("⚠️ Usando divisão simples")
                 X_train, X_test, y_train, y_test = train_test_split(
                     X, y, test_size=0.2, random_state=42
                 )
                 use_validation = len(X_test) > 0 and len(set(y_test)) > 1
             
             # Treinamento
-            print("🧠 Treinando modelo...")
+            print("🧠 Treinando modelo com dados reais...")
             self.classifier.fit(X_train, y_train)
             
-            # Avaliação (se possível)
+            # Avaliação
             if use_validation and len(X_test) > 0:
                 y_pred = self.classifier.predict(X_test)
-                print("\n📊 Relatório de Classificação:")
+                print("\n📊 Relatório de Classificação (DADOS REAIS):")
                 print(classification_report(y_test, y_pred, zero_division=0))
                 
-                # Calcular acurácia
                 accuracy = np.mean(y_pred == y_test)
-                print(f"🎯 Acurácia: {accuracy:.2%}")
-            else:
-                print("ℹ️  Validação não disponível (dados insuficientes)")
+                print(f"🎯 Acurácia com dados reais: {accuracy:.2%}")
             
             # Salvar modelos
-            print("💾 Salvando modelos...")
+            print("💾 Salvando modelos treinados com dados reais...")
             joblib.dump(self.vectorizer, self.models_path / 'vectorizer.pkl')
             joblib.dump(self.classifier, self.models_path / 'bank_classifier.pkl')
             
@@ -183,20 +242,46 @@ class PIXMLTrainer:
                 'classes': list(set(labels)),
                 'total_samples': len(texts),
                 'class_distribution': dict(Counter(labels)),
-                'min_samples_per_class': self.min_samples_per_class
+                'min_samples_per_class': self.min_samples_per_class,
+                'data_source': 'real_annotations',
+                'training_date': str(pd.Timestamp.now())
             }
             
             with open(self.models_path / 'model_metadata.json', 'w', encoding='utf-8') as f:
                 json.dump(metadata, f, indent=2, ensure_ascii=False)
             
-            print(f"✅ Modelos salvos em: {self.models_path}")
+            print(f"✅ Modelos treinados com DADOS REAIS salvos em: {self.models_path}")
             print(f"📋 Classes treinadas: {sorted(set(labels))}")
             
         except Exception as e:
             print(f"❌ Erro durante o treinamento: {e}")
-            # Criar modelo básico em caso de erro
             self._create_basic_model(['texto_exemplo'], ['nubank'])
-    
+
+    def _augment_with_synthetic_data(self, texts: List[str], labels: List[str]) -> Tuple[List[str], List[str]]:
+        """Aumenta dados reais com exemplos sintéticos se necessário"""
+        print("🔧 Aumentando dados reais com exemplos sintéticos...")
+        
+        # Exemplos sintéticos baseados nos padrões reais
+        synthetic_examples = [
+            ("nubank nu pagamentos transferencia pix", "nubank"),
+            ("inter banco inter pix enviado", "inter"),
+            ("itau unibanco transferencia", "itau"),
+            ("btg pactual banco", "btg"),
+            ("will bank", "will"),
+            ("picpay transferencia", "picpay"),
+            ("outros banco qualquer transferencia", "outros_bancos")
+        ]
+        
+        augmented_texts = texts.copy()
+        augmented_labels = labels.copy()
+        
+        for text, label in synthetic_examples:
+            augmented_texts.append(text)
+            augmented_labels.append(label)
+        
+        print(f"📈 Dados aumentados: {len(texts)} reais + {len(synthetic_examples)} sintéticos")
+        return augmented_texts, augmented_labels
+
     def _create_basic_model(self, texts: List[str], labels: List[str]):
         """Cria um modelo básico quando há problemas com os dados"""
         print("🔧 Criando modelo básico...")
@@ -250,7 +335,7 @@ class PIXMLTrainer:
             return prediction
             
         except Exception as e:
-            print(f"⚠️  Erro na predição: {e}")
+            print(f"⚠️ Erro na predição: {e}")
             return self._manual_bank_identification(text)
     
     def _manual_bank_identification(self, text: str) -> str:

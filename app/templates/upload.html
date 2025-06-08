@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentFile = null;
     });
     
-    // Enhanced extraction with real API call
+    // Enhanced extraction with REAL API call
     extractBtn.addEventListener('click', async () => {
         if (!currentFile) return;
         
@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('file', currentFile);
         
         try {
-            // Simulate realistic progress
+            // Real API call to extract data
             await simulateProgress();
             
             // Make actual API call
@@ -318,21 +318,180 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             if (!response.ok) {
-                throw new Error('Erro na extração');
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
             
             const result = await response.json();
-            displayResults(result);
+            
+            if (result.status === 'success') {
+                displayRealResults(result);
+            } else {
+                throw new Error(result.erro || 'Erro na extração');
+            }
             
         } catch (error) {
-            console.error('Erro:', error);
-            alert('❌ Erro durante a extração. Tente novamente.');
+            console.error('Erro na extração:', error);
+            alert('❌ Erro durante a extração: ' + error.message);
         } finally {
             progressContainer.classList.add('hidden');
             extractBtn.disabled = false;
         }
     });
-    
+
+    function displayRealResults(data) {
+        /**
+         * Exibe resultados REAIS extraídos (não fictícios)
+         */
+        const resultContent = document.getElementById('result-content');
+        const resultEmpty = document.getElementById('result-empty');
+        
+        // Dados reais extraídos
+        const dadosReais = data.dados_estruturados || {};
+        const nomes = data.nomes || {};
+        const banco = data.banco_identificado || 'unknown';
+        const scoreExtracao = data.score_extracao || 0;
+        
+        let html = `
+            <div class="bg-gradient-to-br from-gray-800 via-dark-800 to-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold">📊 Dados Extraídos (REAIS)</h3>
+                    <div class="text-right">
+                        <div class="text-sm text-gray-400">Score de Extração</div>
+                        <div class="text-lg font-bold text-${scoreExtracao > 0.7 ? 'green' : scoreExtracao > 0.4 ? 'yellow' : 'red'}-400">
+                            ${(scoreExtracao * 100).toFixed(1)}%
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        `;
+        
+        // Banco identificado
+        html += `
+            <div class="bg-gray-900 p-4 rounded-lg">
+                <div class="text-sm text-gray-400 mb-1">🏦 Banco Identificado</div>
+                <div class="text-lg font-semibold capitalize">${banco}</div>
+            </div>
+        `;
+        
+        // Valor (dados reais)
+        if (dadosReais.valor) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-1">💰 Valor</div>
+                    <div class="text-lg font-semibold text-green-400">${dadosReais.valor}</div>
+                </div>
+            `;
+        }
+        
+        // Data (dados reais)
+        if (dadosReais.data) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-1">📅 Data</div>
+                    <div class="text-lg font-semibold">${dadosReais.data}</div>
+                </div>
+            `;
+        }
+        
+        // Destinatário (dados reais)
+        const destinatario = dadosReais.destinatario || nomes.destinatario;
+        if (destinatario) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-1">👤 Destinatário</div>
+                    <div class="text-lg font-semibold">${destinatario}</div>
+                </div>
+            `;
+        }
+        
+        // Remetente (dados reais)
+        const remetente = dadosReais.remetente || nomes.remetente;
+        if (remetente) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-1">📤 Remetente</div>
+                    <div class="text-lg font-semibold">${remetente}</div>
+                </div>
+            `;
+        }
+        
+        // CPFs (dados reais)
+        if (dadosReais.cpfs && dadosReais.cpfs.length > 0) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <div class="text-sm text-gray-400 mb-1">📱 CPFs Encontrados</div>
+                    <div class="text-sm">
+                        ${dadosReais.cpfs.map(cpf => `<span class="bg-gray-800 px-2 py-1 rounded mr-2">${cpf}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        // ID Transação (dados reais)
+        if (dadosReais.id_transacao) {
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg md:col-span-2">
+                    <div class="text-sm text-gray-400 mb-1">🔢 ID da Transação</div>
+                    <div class="text-sm font-mono">${dadosReais.id_transacao}</div>
+                </div>
+            `;
+        }
+        
+        html += `
+                </div>
+            </div>
+        `;
+        
+        // Informações técnicas
+        if (data.texto_extraido) {
+            const textoLength = data.texto_extraido.tesseract ? data.texto_extraido.tesseract.length : 0;
+            html += `
+                <div class="bg-gray-900 p-4 rounded-lg mb-4">
+                    <h4 class="text-lg font-semibold mb-3">🔧 Informações Técnicas</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <span class="text-gray-400">Arquivo:</span>
+                            <span class="ml-2">${data.arquivo_origem || currentFile.name}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Texto extraído:</span>
+                            <span class="ml-2">${textoLength} caracteres</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">Status:</span>
+                            <span class="ml-2 text-${data.status === 'success' ? 'green' : 'yellow'}-400">${data.status}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Mostrar campos que não foram extraídos
+        const camposPossiveis = ['valor', 'data', 'destinatario', 'remetente', 'cpfs', 'id_transacao'];
+        const camposNaoExtraidos = camposPossiveis.filter(campo => 
+            !dadosReais[campo] && !(campo === 'destinatario' && nomes.destinatario) && !(campo === 'remetente' && nomes.remetente)
+        );
+        
+        if (camposNaoExtraidos.length > 0) {
+            html += `
+                <div class="bg-yellow-900/20 border border-yellow-500/30 p-4 rounded-lg">
+                    <h4 class="text-yellow-400 font-semibold mb-2">⚠️ Campos não extraídos:</h4>
+                    <div class="text-sm text-gray-300">
+                        ${camposNaoExtraidos.map(campo => `<span class="bg-gray-800 px-2 py-1 rounded mr-2">${campo}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        resultContent.innerHTML = html;
+        resultContent.classList.remove('hidden');
+        resultEmpty.classList.add('hidden');
+        
+        // Scroll to results
+        resultContent.scrollIntoView({ behavior: 'smooth' });
+    }
+
     async function simulateProgress() {
         for (let i = 0; i < processingSteps.length; i++) {
             const progress = Math.round(((i + 1) / processingSteps.length) * 100);
