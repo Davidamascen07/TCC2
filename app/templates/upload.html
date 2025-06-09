@@ -52,7 +52,7 @@
                         
                         <div id="progress-container" class="hidden mb-6">
                             <div class="flex justify-between mb-2">
-                                <span class="font-medium">🔄 Processando com OCR + ML + YOLO...</span>
+                                <span class="font-medium">🔄 Processando com OCR + ML...</span>
                                 <span id="progress-percent">0%</span>
                             </div>
                             <div class="bg-gray-700 rounded-full h-2">
@@ -74,7 +74,7 @@
                             <div class="flex flex-wrap gap-2 text-sm">
                                 <span class="bg-blue-900 text-blue-300 px-2 py-1 rounded">Tesseract OCR</span>
                                 <span class="bg-green-900 text-green-300 px-2 py-1 rounded">EasyOCR</span>
-                                <span class="bg-purple-900 text-purple-300 px-2 py-1 rounded">YOLOv8</span>
+                                <span class="bg-purple-900 text-purple-300 px-2 py-1 rounded"></span>
                                 <span class="bg-orange-900 text-orange-300 px-2 py-1 rounded">Scikit-learn</span>
                             </div>
                         </div>
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Enhanced steps for progress
     const processingSteps = [
         'Carregando arquivo...',
-        'Detectando regiões com YOLO...',
+        'Detectando regiões...',
         'Aplicando OCR (Tesseract)...',
         'Refinando com EasyOCR...',
         'Classificando banco (ML)...',

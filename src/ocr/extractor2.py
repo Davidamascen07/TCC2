@@ -16,14 +16,21 @@ if not imagens_dir.exists():
     print(f"Erro: Diretório não encontrado: {imagens_dir}")
     exit()
 
-# Carrega as anotações para comparação
 def carregar_anotacoes():
-    try:
-        with open(anotacoes_path, 'r', encoding='utf-8') as f:
-            return json.load(f)['anotacoes']
-    except FileNotFoundError:
-        print(f"Arquivo de anotações não encontrado: {anotacoes_path}")
+    """Carrega as anotações dos comprovantes"""
+    import json
+    from pathlib import Path
+    
+    anotacoes_path = Path("data/raw/exemplos/anotacao.json")
+    
+    if not anotacoes_path.exists():
+        print(f"❌ Arquivo de anotações não encontrado: {anotacoes_path}")
         return []
+    
+    with open(anotacoes_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    return data['anotacoes']
 
 # Configuração simplificada do Tesseract
 config_tesseract = "--psm 6"
@@ -136,117 +143,92 @@ def extrair_dados_basicos(texto):
     
     return dados
 
-def testar_comprovante_simples(arquivo_imagem, anotacao_esperada=None):
-    """Testa um comprovante com o método simples"""
-    print(f"\n{'='*60}")
-    print(f"📄 TESTANDO: {arquivo_imagem}")
-    print(f"{'='*60}")
+def testar_comprovante_simples(arquivo: str, anotacao: dict = None):
+    """Testa um comprovante específico com OCR simples"""
+    import cv2
+    import pytesseract
+    from pathlib import Path
+    import re
     
-    caminho_completo = imagens_dir / arquivo_imagem
+    caminho_imagem = Path("data/raw/exemplos/imagens") / arquivo
     
-    if not caminho_completo.exists():
-        print(f"❌ Arquivo não encontrado: {caminho_completo}")
+    if not caminho_imagem.exists():
+        print(f"   ❌ Arquivo não encontrado: {arquivo}")
         return None
     
-    # Carregar imagem
-    img = cv2.imread(str(caminho_completo))
-    if img is None:
-        print(f"❌ Erro ao carregar imagem: {caminho_completo}")
-        return None
-    
-    print(f"📏 Dimensões da imagem: {img.shape}")
-    
-    # Teste 1: OCR simples na imagem original
-    print(f"\n🔍 TESTE 1: OCR Simples (imagem original)")
-    gray = preprocessar_imagem_simples(img)
-    texto_simples = OCR_processa_simples(gray, "--psm 6")
-    print(f"📝 Tamanho do texto: {len(texto_simples)} caracteres")
-    print(f"🎯 Primeiros 200 chars: {texto_simples[:200]}...")
-    
-    # Teste 2: Múltiplas configurações
-    print(f"\n🔍 TESTE 2: Múltiplas Configurações")
-    resultados_configs = OCR_processa_multiplas_configs(gray)
-    
-    melhor_resultado = None
-    if resultados_configs:
-        melhor_resultado = max(resultados_configs, key=lambda x: x['tamanho'])
-        print(f"🏆 Melhor config: {melhor_resultado['config']} ({melhor_resultado['tamanho']} chars)")
+    try:
+        print(f"📄 Processando: {arquivo}")
         
-        for res in resultados_configs[:3]:  # Mostra top 3
-            print(f"   Config {res['config_num']} ({res['config']}): {res['tamanho']} chars")
-    
-    # Teste 3: Múltiplas versões de pré-processamento
-    print(f"\n🔍 TESTE 3: Diferentes Pré-processamentos")
-    versoes = preprocessar_imagem_avancado(img)
-    
-    melhores_por_versao = {}
-    for nome_versao, img_processada in versoes.items():
-        try:
-            texto_versao = OCR_processa_simples(img_processada, "--psm 6")
-            melhores_por_versao[nome_versao] = {
-                'texto': texto_versao,
-                'tamanho': len(texto_versao)
+        # Carregar e processar imagem
+        img = cv2.imread(str(caminho_imagem), cv2.IMREAD_GRAYSCALE)
+        if img is None:
+            print(f"   ❌ Erro ao carregar imagem")
+            return None
+        
+        # OCR simples
+        texto = pytesseract.image_to_string(img, lang='por')
+        
+        # Extrair dados básicos
+        dados_extraidos = extrair_dados_basicos(texto)
+        
+        # Preparar comparação se anotação disponível
+        comparacao = None
+        if anotacao:
+            comparacao = {
+                'valor': anotacao.get('valor', ''),
+                'data': anotacao.get('data', ''),
+                'destinatario': anotacao.get('destinatario', {}).get('nome', ''),
+                'remetente': anotacao.get('remetente', {}).get('nome', '')
             }
-            print(f"   {nome_versao}: {len(texto_versao)} chars")
-        except Exception as e:
-            print(f"   {nome_versao}: ERRO - {e}")
-    
-    # Escolher o melhor texto
-    if melhores_por_versao:
-        melhor_versao = max(melhores_por_versao.items(), key=lambda x: x[1]['tamanho'])
-        texto_final = melhor_versao[1]['texto']
-        print(f"🎯 Melhor versão: {melhor_versao[0]} ({melhor_versao[1]['tamanho']} chars)")
-    else:
-        texto_final = texto_simples
-        print(f"🎯 Usando texto simples ({len(texto_final)} chars)")
-    
-    # Extrair dados estruturados
-    print(f"\n🔧 EXTRAÇÃO DE DADOS:")
-    dados_extraidos = extrair_dados_basicos(texto_final)
-    
-    for campo, valor in dados_extraidos.items():
-        print(f"   {campo}: {valor}")
-    
-    # Comparar com anotação esperada se disponível
-    if anotacao_esperada:
-        print(f"\n📊 COMPARAÇÃO COM DADOS ESPERADOS:")
         
-        # Valor
-        valor_esperado = anotacao_esperada.get('valor', '')
-        valor_extraido = dados_extraidos.get('valor', '')
-        valor_correto = valor_esperado.lower().replace(' ', '') == valor_extraido.lower().replace(' ', '')
-        print(f"   💰 Valor: {valor_extraido} {'✅' if valor_correto else '❌'} (esperado: {valor_esperado})")
+        resultado = {
+            'arquivo': arquivo,
+            'tamanho': len(texto),
+            'texto_preview': texto[:200] + "..." if len(texto) > 200 else texto,
+            'dados_extraidos': dados_extraidos,
+            'comparacao': comparacao
+        }
         
-        # Data
-        data_esperada = anotacao_esperada.get('data', '')
-        data_extraida = dados_extraidos.get('data', '')
-        data_correta = data_esperada == data_extraida
-        print(f"   📅 Data: {data_extraida} {'✅' if data_correta else '❌'} (esperado: {data_esperada})")
+        print(f"   ✅ Processado com sucesso ({len(texto)} caracteres)")
+        return resultado
         
-        # CPFs
-        cpfs_extraidos = dados_extraidos.get('cpfs', [])
-        cpf_dest = anotacao_esperada.get('destinatario', {}).get('cpf', '')
-        cpf_rem = anotacao_esperada.get('remetente', {}).get('cpf', '')
-        
-        cpf_dest_ok = cpf_dest in cpfs_extraidos if cpf_dest else False
-        cpf_rem_ok = cpf_rem in cpfs_extraidos if cpf_rem else False
-        
-        print(f"   🆔 CPFs extraídos: {len(cpfs_extraidos)} - Dest: {'✅' if cpf_dest_ok else '❌'} Rem: {'✅' if cpf_rem_ok else '❌'}")
-    
-    # Mostrar texto completo
-    print(f"\n📄 TEXTO COMPLETO EXTRAÍDO:")
-    print(f"{'─'*60}")
-    print(texto_final)
-    print(f"{'─'*60}")
-    
-    return {
-        'arquivo': arquivo_imagem,
-        'texto_final': texto_final,
-        'tamanho': len(texto_final),
-        'dados_extraidos': dados_extraidos,
-        'comparacao': anotacao_esperada
-    }
+    except Exception as e:
+        print(f"   ❌ Erro no processamento: {e}")
+        return None
 
+def extrair_dados_basicos(texto: str) -> dict:
+    """Extrai dados básicos do texto usando regex simples"""
+    import re
+    
+    dados = {}
+    texto_lower = texto.lower()
+    
+    # Extrair valor
+    valores = re.findall(r'r\$\s*[\d.,]+', texto_lower)
+    if valores:
+        dados['valor'] = valores[0].upper()
+    
+    # Extrair data
+    datas = re.findall(r'\d{2}/\d{2}/\d{4}', texto)
+    if datas:
+        dados['data'] = datas[0]
+    
+    # Extrair nomes (simplificado)
+    linhas = [linha.strip() for linha in texto.split('\n') if linha.strip()]
+    nomes_candidatos = []
+    
+    for linha in linhas:
+        # Procurar por linhas que parecem nomes
+        if len(linha) > 5 and not re.search(r'\d', linha) and linha.count(' ') >= 1:
+            nomes_candidatos.append(linha.title())
+    
+    if nomes_candidatos:
+        dados['destinatario'] = nomes_candidatos[0] if len(nomes_candidatos) > 0 else ''
+        dados['remetente'] = nomes_candidatos[1] if len(nomes_candidatos) > 1 else ''
+    
+    return dados
+
+# corrigir warning: in the working copy of 'src/ocr/extractor2.py', LF will be replaced by CRLF the next time Git touches it
 def main():
     """Função principal para testar os comprovantes"""
     print("🚀 TESTANDO OCR SIMPLES NOS COMPROVANTES")
@@ -314,5 +296,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# corrigir warning: in the working copy of 'src/ocr/extractor2.py', LF will be replaced by CRLF the next time Git touches it

@@ -163,13 +163,13 @@ O sistema inclui 104 comprovantes de exemplo com anotações manuais para treina
   "arquivo_origem": "comprovante_exemplo.jpg",
   "valor": "R$ 58,00",
   "destinatario": {
-    "nome": "Ana Cleuma Sousa dos Santos",
-    "cpf": "***120.983-**",
+    "nome": "Ana ******tos",
+    "cpf": "***120.***-**",
     "instituicao": "Nu Pagamentos - Ip"
   },
   "remetente": {
-    "nome": "AIALA DE BRITO MARTINS",
-    "cpf": "***975.343-**",
+    "nome": "AIALA ******INS",
+    "cpf": "***975.***-**",
     "instituicao": "Banco Inter S.A."
   },
   "data": "03/06/2025",
